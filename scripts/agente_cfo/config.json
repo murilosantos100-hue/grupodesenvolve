@@ -1,0 +1,37 @@
+{
+  "entidade": "Desenvolve Consultoria e Hospitais",
+  "cnpj": "27.594.121/0001-65",
+  "drive": {
+    "root_folder_id": "1PSpBrJi6RaAx0wMmfNTg5u08A8jiPZHZ",
+    "root_folder_title": "CONSULTORIA",
+    "notas_fiscais_folder_id": "1REe2FNsrQ1g5H6UOZe7hjLa3ULXPvcMg",
+    "fluxo_de_caixa_folder_id": "143ZRkmmIeFHVO1aCxQLWzUbj3LmaUl5Y",
+    "dre_folder_id": "1xyRqSRRV_QBpf8fuD9Ct3k3me1OAX4gG",
+    "orcamento_folder_id": "1TjsqtyfB3dHpDTys4cLXPOBGKOcB9IzN",
+    "resultados_folder_id": "1Kk5rjbEIOdDVZ2XP4rhC6eaDob73oJj9",
+    "backup_folder_id": "19145EXg2fU6RAtrG5xxyORSue9If6_u9",
+    "_ids_confirmed_on": "2026-09-21",
+    "_note": "IDs confirmados por leitura direta do Drive nesta data. Se as pastas forem recriadas/movidas, re-resolver por nome (parentId + title) em vez de confiar cegamente nestes IDs -- a skill faz isso como fallback."
+  },
+  "historico_csv_filename": "Historico_Avaliacoes.csv",
+  "alert_thresholds": {
+    "runway_dias_critico": 30,
+    "runway_dias_atencao": 60,
+    "_note": "Chute inicial do brief (secao 4/9). Recalibrar apos 2-3 ciclos reais com Murilo e Diego."
+  },
+  "email": {
+    "sender": "murilo.santos@grupodesenvolve.com.br",
+    "recipients": [
+      "murilo.santos@grupodesenvolve.com.br",
+      "diego.meloni@grupodesenvolve.com.br"
+    ],
+    "_note": "Secao 9 do brief marca o remetente como decisao pendente (institucional vs financeiro@ dedicado). Usando o institucional ate confirmacao."
+  },
+  "gaps_conhecidos": {
+    "orcamento_por_unidade_indisponivel": true,
+    "folha_de_pagamento_folder_exists": false,
+    "contratos_ativos_folder_exists": false,
+    "fluxo_de_caixa_tem_subpastas_mes": false,
+    "dre_tem_subpastas_mes": false
+  }
+}
