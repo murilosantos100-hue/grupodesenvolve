@@ -46,11 +46,15 @@ Use as ferramentas MCP `Google_Drive` (`search_files`,
 `config.json`:
 
 1. Busque a subpasta do ano (2026) e dentro dela a subpasta do mês de
-   referência, por nome (ex: "Agosto"), usando `parentId = '<id>'` +
-   `title contains '<mês>'`. Não assuma que a subpasta de mês existe em
-   Fluxo de Caixa/DRE — hoje (ver `config.json.gaps_conhecidos`) elas não
-   existem ainda. Se não existir, trate como "zero arquivos nessa fonte" e
-   siga adiante, não pare o pipeline por causa disso.
+   referência, por nome (ex: "Agosto - Extratos - Consultoria - 2026" em
+   Fluxo de Caixa, "Agosto - DRE - Consultoria - 2026" em DRE, "Agosto -
+   Notas Fiscais - Consultoria - 2026" em Notas Fiscais), usando `parentId
+   = '<id>'` + `title contains '<mês>'`. As três fontes seguem essa mesma
+   convenção desde 2026-09-21 (ver `config.json.gaps_conhecidos`). Mesmo
+   assim, não assuma cegamente que a subpasta existe — se a busca não
+   retornar nada (pasta renomeada, movida, ou uma fonte nova ainda sem essa
+   convenção), trate como "zero arquivos nessa fonte" e siga adiante, não
+   pare o pipeline por causa disso.
 2. Liste os arquivos dentro da subpasta do mês (ou da pasta do ano, se não
    houver subpasta de mês).
 3. Para Orçamento (`orcamento_folder_id`), leia o(s) arquivo(s) existente(s).

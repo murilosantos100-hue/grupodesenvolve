@@ -30,33 +30,32 @@ já está pronto para consumir isso sem mudança de código.
 
 ## 3. Folha de Pagamento e Contratos Ativos/Faturamento Previsto
 
-**Ainda não criadas.** Não criei essas pastas no Drive de produção porque é
-uma mudança estrutural que o time vai passar a depender — prefiro que você
-confirme antes de eu mexer na árvore real que o Diego e o resto do time vão
-usar. Minha recomendação honesta: **crie as duas agora**, antes do primeiro
-ciclo real. O custo é baixo (duas pastas) e sem elas dois números centrais
-do relatório ficam estruturalmente enviesados, não por bug, mas porque a
-fonte não existe:
-- Sem Folha de Pagamento: o fluxo de caixa realizado provavelmente já
-  captura a saída quando ela sai do banco, mas você perde visibilidade de
-  compromisso futuro de folha na projeção de 13 semanas.
-- Sem Contratos Ativos: a projeção de 13 semanas só vê o que já é receita
-  reconhecida, nunca o que está contratado mas ainda não faturado — numa
-  consultoria com receita por projeto, isso é a diferença entre "vejo o
-  caixa" e "vejo o caixa e sei se ele volta a subir".
+**Resolvido em 2026-09-21**, com sua confirmação explícita. Criei no Drive
+de produção:
+- `/Folha de Pagamento/Folha de Pagamento - Consultoria - 2026/` com as 12
+  subpastas de mês (Janeiro–Dezembro)
+- `/Contratos Ativos e Faturamento Previsto/Contratos Ativos e Faturamento
+  Previsto - Consultoria - 2026/` com as 12 subpastas de mês
 
-Se quiser, eu crio as duas pastas agora — é uma ação reversível (dá pra
-apagar), mas eu queria sua confirmação explícita antes de tocar na estrutura
-real que o time vai começar a usar.
+Mesmo padrão de nomenclatura de Notas Fiscais (`<Mês> - <Categoria> -
+Consultoria - 2026`). IDs em `scripts/agente_cfo/config.json`
+(`folha_de_pagamento_folder_id`, `contratos_ativos_folder_id`).
+
+**As pastas estão vazias** — a estrutura existe, mas ninguém subiu
+documento ainda. Isso não é um gap de engenharia, é um gap de processo: a
+skill não vai encontrar dado ali até o time começar a subir. O gap real que
+sobra agora é combinar com o time quem sobe o quê (item 4 do brief
+original) — isso não se resolve criando pasta, se resolve com um combinado
+verbal ou um documento curto de onboarding.
 
 ## 4. Subpastas de mês em Fluxo de Caixa e DRE
 
-**Ainda não replicadas.** Mesma lógica do item 3: reversível, recomendado,
-mas não fiz sem confirmação por afetar a árvore de produção. A skill já foi
-escrita para não quebrar se essas subpastas não existirem (trata como "zero
-arquivos" e segue), mas isso é uma rede de segurança, não uma razão para
-adiar a padronização — sem subpasta por mês, fica sem convenção clara de
-"onde eu subo o quê" assim que mais de uma pessoa começar a subir arquivo.
+**Resolvido em 2026-09-21**, com sua confirmação explícita. Criei as 12
+subpastas de mês (Janeiro–Dezembro/2026) dentro de `Extratos - Consultoria
+- 2026` (Fluxo de Caixa) e `DRE - Consultoria - 2026` (DRE), replicando
+exatamente o padrão já usado em Notas Fiscais. As três fontes de dado
+(Notas Fiscais, Fluxo de Caixa, DRE) agora seguem a mesma convenção de
+pasta por mês — "onde eu subo o quê" deixou de ser ambíguo.
 
 ## 5. Thresholds de alerta de runway
 
@@ -71,13 +70,16 @@ de risco do negócio, não uma decisão técnica, e é sua e do Diego, não minh
 
 ## O que eu faria a seguir, na sua posição
 
-Direto: o gargalo real deste piloto não é engenharia, é dado. O sistema
-está pronto para rodar hoje contra pastas vazias e vai te dizer isso sem
-inventar número — mas "rodar avaliação" contra uma pasta vazia não te dá
-informação nenhuma, só valida que o cano não vaza. O primeiro ciclo de valor
-de verdade só acontece depois que alguém sobe pelo menos um extrato e uma
-nota fiscal de agosto. Eu priorizaria, nessa ordem: (1) confirmar comigo se
-crio as pastas/subpastas faltantes agora, (2) subir os documentos de um mês
-fechado (agosto, já que setembro ainda não fechou) para o primeiro teste
-real, (3) só depois disso vale a pena gastar tempo calibrando threshold —
-calibrar em cima de zero dado real é estética, não estratégia.
+Direto: o gargalo real deste piloto não é mais engenharia nem estrutura de
+pasta — isso está resolvido agora. É dado. O sistema está pronto para rodar
+hoje, mas contra pastas vazias "rodar avaliação" não te dá informação
+nenhuma, só valida que o cano não vaza. O primeiro ciclo de valor de verdade
+só acontece depois que alguém sobe pelo menos um extrato e uma nota fiscal
+de um mês fechado (agosto, já que setembro ainda não fechou). Eu
+priorizaria, nessa ordem: (1) subir os documentos de agosto para o primeiro
+teste real, (2) rodar a avaliação e revisar comigo e o Diego se o relatório
+faz sentido antes de confiar nele, (3) só depois disso vale a pena gastar
+tempo calibrando threshold — calibrar em cima de zero dado real é estética,
+não estratégia. Orçamento por unidade (item 2) continua sendo a decisão
+mais cara pendente — é trabalho de planejamento seu, não meu, e não há
+atalho de engenharia para isso.

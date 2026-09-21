@@ -10,6 +10,8 @@
     "orcamento_folder_id": "1TjsqtyfB3dHpDTys4cLXPOBGKOcB9IzN",
     "resultados_folder_id": "1Kk5rjbEIOdDVZ2XP4rhC6eaDob73oJj9",
     "backup_folder_id": "19145EXg2fU6RAtrG5xxyORSue9If6_u9",
+    "folha_de_pagamento_folder_id": "1haKNHHQy8iFIkUhRafYfW7P8a1lZv3jP",
+    "contratos_ativos_folder_id": "1hJiBf0dpsx1cT8CFEdFp9haLDm39J3eZ",
     "_ids_confirmed_on": "2026-09-21",
     "_note": "IDs confirmados por leitura direta do Drive nesta data. Se as pastas forem recriadas/movidas, re-resolver por nome (parentId + title) em vez de confiar cegamente nestes IDs -- a skill faz isso como fallback."
   },
@@ -29,9 +31,10 @@
   },
   "gaps_conhecidos": {
     "orcamento_por_unidade_indisponivel": true,
-    "folha_de_pagamento_folder_exists": false,
-    "contratos_ativos_folder_exists": false,
-    "fluxo_de_caixa_tem_subpastas_mes": false,
-    "dre_tem_subpastas_mes": false
+    "folha_de_pagamento_folder_exists": true,
+    "contratos_ativos_folder_exists": true,
+    "fluxo_de_caixa_tem_subpastas_mes": true,
+    "dre_tem_subpastas_mes": true,
+    "_note": "Pastas e subpastas de mes (Janeiro-Dezembro/2026) criadas em 2026-09-21 no Drive de producao, mesmo padrao de nomenclatura de Notas Fiscais ('<Mes> - <Categoria> - Consultoria - 2026'). Folha de Pagamento e Contratos Ativos e Faturamento Previsto ainda estao vazias -- ninguem subiu documento nelas ainda, so a estrutura existe."
   }
 }
