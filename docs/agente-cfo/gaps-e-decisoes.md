@@ -168,6 +168,51 @@ time):**
   tempo, sem impacto no caixa, mas registrado em `contratada_razao_social`
   exatamente como no documento-fonte
 
+## 7. Auditoria completa dos 27 contratos (2026-09-28)
+
+**Concluído, com Pindorama incluído no total (decisão confirmada pelo
+Murilo).** A pedido explícito do Murilo — depois de identificar em Brotas um
+padrão de risco (aditivo que muda valor/objeto sem ser o mais recente nem
+restatar vigência) — relemos do zero **todos** os 27 contratos, inclusive
+aditivos que a extração inicial tinha listado como "existe mas não foi lido
+em detalhe". 6 agentes em paralelo, cada um com o registro anterior como
+baseline e instrução explícita de confirmar ou corrigir.
+
+**Resultado: nenhum aditivo de valor/objeto escondido foi encontrado além do
+já capturado em Brotas e Brodowski.** O valor total consolidado não mudou
+(R$192.780,97/mês) — a auditoria só elevou a confiança em alguns registros
+e corrigiu uma data (Cuiabá: contrato original é de 22/11/2023, não
+13/11/2023 como uma cópia inicial sugeria; dia de vencimento é 22, não 10).
+
+**Catálogo final** em `/Contratos Ativos e Faturamento
+Previsto/contratos_ativos_2026-09-28-auditado.json` no Drive (supersede as
+duas versões anteriores, que podem ser apagadas manualmente — ver item de
+limpeza abaixo). Lista completa e alfabética de pendências em
+`docs/agente-cfo/contratos-para-revisao-do-time.md`.
+
+**Achados novos da auditoria (não estavam no catálogo pré-auditoria):**
+- **Santa Casa de Cajobi**: a pasta do cliente está vazia, mas o contrato
+  existe de verdade — encontramos 17+ notas fiscais reais em outras pastas
+  do Drive confirmando R$5.990,00/mês. Incluído no catálogo com essa fonte,
+  mas o instrumento contratual em si continua sem ser localizado.
+- **Pompéia (DHS)**: o aditivo vigente se autointitula "3º Termo de
+  Aditamento" no próprio texto — prova de que existe um 2º aditivo nunca
+  arquivado no Drive. Risco residual real, não fechado.
+- **Brodowski**: mesmo problema, 2º aditivo continua ilegível (só existe
+  como placeholder `.txt` vazio).
+- **Pindorama**: o folder_id usado na primeira extração estava trocado com
+  o de Brodowski por engano — corrigido na auditoria; o 2º aditivo, que
+  parecia "não encontrado", na verdade existia (nome de arquivo sem zero à
+  esquerda confundiu a busca).
+
+**Limpeza manual pendente no Drive** (a sessão não tem permissão de
+delete/rename/move, só leitura e criação): 12 subpastas de mês obsoletas +
+cerca de 15 arquivos duplicados/rascunho encontrados durante a auditoria
+(desktop.ini, cópias de aditivos, rascunhos .docx). Lista completa com
+links diretos em `contratos-para-revisao-do-time.md`. **Nunca apagar** os
+placeholders `.txt` vazios de Brodowski/Nuporanga — são o único registro de
+que falta digitalizar um documento físico.
+
 ## O que eu faria a seguir, na sua posição
 
 Direto: o gargalo real deste piloto não é mais engenharia nem estrutura de
