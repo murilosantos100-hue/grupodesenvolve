@@ -32,6 +32,16 @@ _REQUIRED_DRE_FIELDS = (
     "source_file_id", "source_file_name",
 )
 
+CONTRACT_SEGMENTS = ("consultoria", "hospitalar")
+CONTRACT_STATUS = ("vigente", "encerrado", "indeterminado")
+CONTRACT_VALOR_MENSAL_ORIGEM = ("explicito", "calculado_de_valor_global", "indisponivel")
+
+_REQUIRED_CONTRACT_FIELDS = (
+    "id", "cliente", "segmento", "cnpj_contratante", "cnpj_contratada",
+    "status", "objeto_resumo", "valor_mensal_origem",
+    "vigencia_inicio", "fonte_arquivo_id", "fonte_arquivo_nome",
+)
+
 
 def validate_cash_flow_entry(entry: dict) -> list[str]:
     """Retorna lista de erros (vazia se valido)."""
@@ -92,6 +102,53 @@ def validate_dre_line(line: dict) -> list[str]:
 
     if "period" in line and line["period"] and not _looks_like_period(line["period"]):
         errors.append(f"period nao parece 'AAAA-MM': {line['period']!r}")
+
+    return errors
+
+
+def validate_contract(contract: dict) -> list[str]:
+    """Valida um registro de contrato ativo (catalogo por cliente, nao por mes).
+
+    Ver docs/agente-cfo/spec-funcional-tecnica-v1.md secao 2.3. Um contrato
+    com valor_mensal None e valor_mensal_origem='indisponivel' e valido --
+    significa que o documento nao permite apurar o valor com confianca, e
+    isso deve ir pro relatorio como gap, nao ser inventado.
+    """
+    errors = []
+    for field in _REQUIRED_CONTRACT_FIELDS:
+        if field not in contract or contract[field] in (None, ""):
+            errors.append(f"campo obrigatorio ausente: {field}")
+
+    if "segmento" in contract and contract["segmento"] not in CONTRACT_SEGMENTS:
+        errors.append(f"segmento invalido: {contract['segmento']!r} (esperado {CONTRACT_SEGMENTS})")
+
+    if "status" in contract and contract["status"] not in CONTRACT_STATUS:
+        errors.append(f"status invalido: {contract['status']!r} (esperado {CONTRACT_STATUS})")
+
+    if "valor_mensal_origem" in contract and contract["valor_mensal_origem"] not in CONTRACT_VALOR_MENSAL_ORIGEM:
+        errors.append(
+            f"valor_mensal_origem invalido: {contract['valor_mensal_origem']!r} "
+            f"(esperado {CONTRACT_VALOR_MENSAL_ORIGEM})"
+        )
+
+    if contract.get("valor_mensal_origem") != "indisponivel" and contract.get("valor_mensal") is None:
+        errors.append("valor_mensal ausente sem valor_mensal_origem='indisponivel' para justificar")
+
+    if contract.get("valor_mensal") is not None:
+        try:
+            if float(contract["valor_mensal"]) < 0:
+                errors.append("valor_mensal deve ser positivo")
+        except (TypeError, ValueError):
+            errors.append(f"valor_mensal nao numerico: {contract['valor_mensal']!r}")
+
+    for date_field in ("vigencia_inicio", "vigencia_fim"):
+        value = contract.get(date_field)
+        if value and not _looks_like_date(value):
+            errors.append(f"{date_field} nao parece 'AAAA-MM-DD': {value!r}")
+
+    dia_venc = contract.get("dia_vencimento_pagamento")
+    if dia_venc is not None and not (1 <= int(dia_venc) <= 31):
+        errors.append(f"dia_vencimento_pagamento fora do intervalo 1-31: {dia_venc!r}")
 
     return errors
 

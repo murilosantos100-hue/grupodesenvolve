@@ -68,6 +68,56 @@ de risco do negócio, não uma decisão técnica, e é sua e do Diego, não minh
 
 ---
 
+## 6. Contratos Ativos — modelo por cliente (2026-09-28)
+
+**Resolvido — modelo atualizado.** O time já tinha abandonado as subpastas
+de mês em Contratos Ativos e reorganizado por cliente
+(`CONSULTORIA/<município>` e `HOSPITALAR/<hospital>`), confirmando que o
+modelo por mês não fazia sentido pra contratos perenes. Documentei esse
+modelo em `spec-funcional-tecnica-v1.md` seção 2.3 e criei o schema
+`validate_contract` em `schema.py`. Rodei um piloto de leitura completa em
+3 clientes (Brotas, Altinópolis, H.C. Cuiabá) — resultado em
+`scripts/agente_cfo/contratos_ativos_piloto.json` e também salvo no Drive
+em `/Contratos Ativos e Faturamento Previsto/contratos_ativos_piloto.json`.
+
+**Achados do piloto que afetam os 23 clientes restantes:**
+
+1. **CNPJ duplo dentro do grupo.** O contrato de H.C. Cuiabá foi
+   originalmente firmado com `Desenvolve Hospitais Ltda` (CNPJ
+   48.986.804/0001-38), não com a entidade piloto deste projeto
+   (`Desenvolve Consultoria Ltda`, CNPJ 27.594.121/0001-65), e só migrou via
+   aditivo de substituição de contratada. Isso significa que **nem todo
+   contrato na pasta HOSPITALAR conta necessariamente para o caixa da
+   entidade piloto** — cada um precisa ter o CNPJ conferido individualmente
+   no texto, não presumido pela pasta de origem. Preciso da sua confirmação:
+   contratos ainda em nome de Desenvolve Hospitais Ltda devem entrar na
+   projeção de caixa deste piloto, ou só os já migrados para 27.594.121/0001-65?
+
+2. **"Valor mensal" nem sempre está explícito.** Brotas declara "valor
+   global do aditamento" sem dizer se é mensal ou anual — tive que inferir
+   por coerência com outro trecho do mesmo documento (confiança média, não
+   alta, sinalizado no campo `valor_mensal_origem`). Isso vai se repetir nos
+   outros 23 — o schema já contempla essa incerteza (`explicito` vs
+   `calculado_de_valor_global` vs `indisponivel`), mas o relatório final
+   precisa deixar isso visível, nunca tratar tudo como igualmente confiável.
+
+3. **Subpasta "VIGENTE" pode estar vazia.** Sales Oliveira tem uma subpasta
+   `CONTRATO 036-026 - PE - VIGENTE` sem nenhum arquivo dentro — o contrato
+   vigente real não está digitalizado no Drive. Vai virar
+   `valor_mensal_origem: indisponivel` no catálogo, não um valor inventado.
+
+**Limitação técnica encontrada:** o conector MCP do Google Drive desta
+sessão **não tem permissão de delete/rename** (`trash_file` e
+`update_file` retornaram "The caller does not have permission" mesmo em
+pastas vazias criadas por mim). Não consegui apagar as 12 subpastas de mês
+obsoletas que criei em Contratos Ativos antes dessa mudança de modelo —
+**pedido: apague manualmente Janeiro–Dezembro dentro de `Contratos Ativos e
+Faturamento Previsto - Consultoria - 2026` no Drive**, é rápido pela
+interface web e eu não tenho esse escopo de permissão no momento.
+
+**Próximo passo, pendente de confirmação:** processar os outros 23 clientes
+com o mesmo método, uma vez resolvida a questão do CNPJ duplo acima.
+
 ## O que eu faria a seguir, na sua posição
 
 Direto: o gargalo real deste piloto não é mais engenharia nem estrutura de

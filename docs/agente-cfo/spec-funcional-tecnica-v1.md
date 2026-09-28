@@ -66,6 +66,83 @@ todas): `receita_bruta`, `deducoes`, `receita_liquida`, `custos_servicos`,
 `despesas_operacionais`, `despesas_pessoal`, `ebitda`,
 `resultado_financeiro`, `resultado_liquido`.
 
+### 2.3 `contract` (contrato ativo)
+
+**Modelo revisado em 2026-09-28.** Diferente de Notas Fiscais/Fluxo de
+Caixa/DRE, `Contratos Ativos e Faturamento Previsto` **não é organizado por
+mês** — o modelo de negócio da Desenvolve é de contratos perenes, de longa
+duração e valor mensal fixo, então uma pasta por mês não fazia sentido e o
+time já abandonou essa estrutura na prática. O modelo real, confirmado por
+inspeção direta do Drive, é:
+
+```
+Contratos Ativos e Faturamento Previsto - Consultoria - 2026/
+├── CONSULTORIA/
+│   └── <Município>/
+│       ├── (arquivos diretos: contrato inicial + aditivos numerados, o mais
+│       │    recente marcado "(VIGENTE)" no nome do arquivo)
+│       │    OU
+│       └── CONTRATO <nº> - <modalidade> - VIGENTE|ENCERRADO/
+│           └── (arquivo do contrato)
+└── HOSPITALAR/
+    └── <Hospital>/
+        └── (mesmo padrão acima)
+```
+
+Cada cliente pode ter mais de um contrato ao longo do tempo (histórico) —
+só o marcado `VIGENTE` (por nome de subpasta ou por ser o aditivo mais
+recente) importa para o financeiro atual. Uma subpasta pode existir
+marcada `VIGENTE` sem nenhum arquivo dentro (gap real observado, ex:
+Sales Oliveira) — nesse caso o contrato fica sinalizado como
+`valor_mensal_origem: indisponivel`, nunca com valor inventado.
+
+**Achado importante sobre CNPJ:** o Grupo Desenvolve tem mais de uma
+empresa (pelo menos `Desenvolve Consultoria Ltda`, CNPJ
+27.594.121/0001-65 — a entidade piloto — e `Desenvolve Hospitais Ltda`,
+CNPJ 48.986.804/0001-38). Um contrato dentro da pasta `HOSPITALAR` pode ter
+sido originalmente firmado com a outra empresa e só migrado para o CNPJ
+piloto via aditivo de substituição de contratada. Por isso `cnpj_contratada`
+é campo obrigatório e verificado por contrato, individualmente — a pasta
+(`CONSULTORIA`/`HOSPITALAR`) não é um proxy confiável para "qual CNPJ".
+
+Campos (ver `scripts/agente_cfo/schema.py::validate_contract`):
+
+| campo                    | tipo                                      | obrigatório | descrição |
+|---------------------------|--------------------------------------------|-------------|-----------|
+| `id`                       | string                                      | sim | identificador único (slug do cliente) |
+| `cliente`                  | string                                      | sim | nome do contratante |
+| `segmento`                 | `"consultoria"` \| `"hospitalar"`           | sim | qual subpasta de origem |
+| `cnpj_contratante`         | string                                      | sim | CNPJ do cliente |
+| `cnpj_contratada`          | string                                      | sim | CNPJ da empresa do grupo que é parte no contrato vigente — **conferir sempre**, não presumir |
+| `contratada_razao_social`  | string                                      | não | razão social correspondente ao CNPJ acima |
+| `numero_contrato_original` | string                                      | não | número/processo do contrato de origem |
+| `aditivos`                 | lista de `{numero, data, resumo}`           | não | histórico de aditamentos, mais recente por último |
+| `status`                   | `"vigente"` \| `"encerrado"` \| `"indeterminado"` | sim | |
+| `objeto_resumo`            | string                                      | sim | resumo do objeto contratual |
+| `valor_mensal`             | number \| null                              | condicional | obrigatório salvo quando `valor_mensal_origem="indisponivel"` |
+| `valor_mensal_origem`      | `"explicito"` \| `"calculado_de_valor_global"` \| `"indisponivel"` | sim | se o contrato afirma o valor mensal diretamente, se foi derivado de um valor global ÷ período, ou se não dá pra apurar com confiança |
+| `valor_global_referencia`  | number \| null                              | não | valor global citado no documento, quando existir, para auditoria do cálculo acima |
+| `reajuste_indice`          | string \| null                              | não | ex: "IPCA" |
+| `reajuste_periodicidade`   | string \| null                              | não | |
+| `vigencia_inicio`          | string `"AAAA-MM-DD"`                       | sim | |
+| `vigencia_fim`             | string `"AAAA-MM-DD"` \| null               | não | null = prazo indeterminado |
+| `dia_vencimento_pagamento` | int 1-31 \| null                            | não | |
+| `fonte_arquivo_id`         | string                                      | sim | ID do Drive do documento usado como base — auditoria |
+| `fonte_arquivo_nome`       | string                                      | sim | |
+| `observacoes`              | string                                      | não | gaps, ambiguidades, decisões de interpretação tomadas na extração |
+
+O catálogo consolidado (todos os clientes) fica em
+`contratos_ativos.json` dentro da própria pasta `Contratos Ativos e
+Faturamento Previsto` no Drive — dado comercial real não é versionado no
+repositório git. O repo guarda só o schema/validação e um piloto de 3
+clientes em `scripts/agente_cfo/contratos_ativos_piloto.json`, para
+referência de formato.
+
+Esse catálogo ainda **não está plugado** em `kpis.projecao_13_semanas` —
+integrá-lo é o próximo passo natural depois que o catálogo cobrir os 26
+clientes, e vai transformar a projeção de "só extrapolação de histórico"
+em "piso de receita contratada + variação observada".
+
 ## 3. KPIs (implementados em `scripts/agente_cfo/kpis.py`)
 
 Todos calculados de forma determinística a partir das listas de

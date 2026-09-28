@@ -1,0 +1,91 @@
+{
+  "_meta": {
+    "descricao": "Piloto de 3 clientes (Brotas, Altinopolis, H.C. Cuiaba) para validar o schema de contrato antes de processar os 26 clientes em Contratos Ativos e Faturamento Previsto.",
+    "gerado_em": "2026-09-28",
+    "modelo_pasta": "Contratos Ativos e Faturamento Previsto - Consultoria - 2026 / <CONSULTORIA|HOSPITALAR> / <cliente> / (arquivo direto + aditivos, OU subpasta 'CONTRATO <no> - VIGENTE|ENCERRADO')",
+    "cnpj_alvo_piloto": "27.594.121/0001-65 (Desenvolve Consultoria Ltda -- entidade do brief)",
+    "achado_importante": "Contratos HOSPITALAR podem ter sido originalmente firmados com DESENVOLVE HOSPITAIS LTDA (CNPJ 48.986.804/0001-38), empresa irma do mesmo grupo, e so migram para o CNPJ 27.594.121/0001-65 via aditivo de substituicao de contratada. Cada contrato precisa ter cnpj_contratada conferido individualmente -- nao presumir que 'HOSPITALAR' == CNPJ do piloto."
+  },
+  "contratos": [
+    {
+      "id": "brotas-2534-2023",
+      "cliente": "Prefeitura Municipal da Estancia Turistica de Brotas",
+      "segmento": "consultoria",
+      "cnpj_contratante": "46.362.927/0001-72",
+      "cnpj_contratada": "27.594.121/0001-65",
+      "contratada_razao_social": "Desenvolve Consultoria Ltda",
+      "numero_contrato_original": "2534/2023",
+      "aditivos": [
+        {"numero": "01/2024", "data": "2024-08-02", "resumo": "Prorrogacao de prazo por 12 meses, ate 02/08/2025"},
+        {"numero": "02/2025", "data": "2025-08-01", "resumo": "Prorrogacao de prazo por 12 meses, ate 02/08/2026"},
+        {"numero": "03/2025", "data": "2025-10-24", "resumo": "Acrescimo de servicos (SIOPS), +R$2.430,00/mes (24,924% sobre valor licitado)"},
+        {"numero": "04/2026", "data": "2026-07-29", "resumo": "Prorrogacao de prazo por 12 meses, ate 02/08/2027; valor global do aditamento R$152.191,60 com reajuste IPCA"}
+      ],
+      "status": "vigente",
+      "objeto_resumo": "Consultoria e assessoria tecnica especializada, auditoria e treinamento na gestao dos servicos de saude, incluindo SIOPS",
+      "valor_mensal": 12682.63,
+      "valor_mensal_origem": "calculado_de_valor_global",
+      "valor_global_referencia": 152191.60,
+      "moeda": "BRL",
+      "reajuste_indice": "IPCA",
+      "reajuste_periodicidade": "anual (na renovacao)",
+      "vigencia_inicio": "2023-08-02",
+      "vigencia_fim": "2027-08-02",
+      "dia_vencimento_pagamento": null,
+      "fonte_arquivo_id": "1-5Eqg0Wt2WRMEWifkdP3KBZOLT2QIyhs",
+      "fonte_arquivo_nome": "4. Aditivo 04_2026 Contrato 2534_2023 - BROTAS (VIGENTE).pdf",
+      "observacoes": "Documento declara 'valor global deste aditamento' em R$152.191,60 sem dizer explicitamente se e mensal ou anual. Tratamos como ANUAL por coerencia com o 3o aditivo (R$2.430/mes = 24,924% de R$117.000, que so fecha se R$117.000 for o valor ANUAL do contrato original). CONFIRMAR com Murilo/Diego antes de usar em projecao de caixa -- confianca media, nao alta."
+    },
+    {
+      "id": "altinopolis-143-2025",
+      "cliente": "Municipio de Altinopolis",
+      "segmento": "consultoria",
+      "cnpj_contratante": "45.298.569/0001-13",
+      "cnpj_contratada": "27.594.121/0001-65",
+      "contratada_razao_social": "Desenvolve Consultoria Ltda",
+      "numero_contrato_original": "143/2025 (Dispensa de Licitacao no 98/2025, Processo 190/2025)",
+      "aditivos": [],
+      "status": "vigente",
+      "objeto_resumo": "Suporte tecnico sanitario, consultoria em gestao da saude publica e ferramenta tecnologica de dados sanitarios",
+      "valor_mensal": 5080.00,
+      "valor_mensal_origem": "calculado_de_valor_global",
+      "valor_global_referencia": 60960.00,
+      "moeda": "BRL",
+      "reajuste_indice": "IPCA",
+      "reajuste_periodicidade": "fixo por 12 meses, depois anual pelo IPCA",
+      "vigencia_inicio": "2025-12-03",
+      "vigencia_fim": "2026-12-03",
+      "dia_vencimento_pagamento": null,
+      "fonte_arquivo_id": "1j1cE13YlPBTRRZMbiWBuCxpHipmThLqU",
+      "fonte_arquivo_nome": "CONTRATO Dispensa 98-2025 Altinopolis - vigente.pdf",
+      "observacoes": "Valor total explicito para 12 meses (R$60.960,00) -> mensal = 5.080,00, alta confianca. Pagamento sem dia fixo: ate 15 dias corridos apos liquidacao (relatorio + atesto do fiscal)."
+    },
+    {
+      "id": "amcc-cuiaba",
+      "cliente": "Associacao Matogrossense de Combate ao Cancer - AMCC (Hospital de Cancer de Mato Grosso)",
+      "segmento": "hospitalar",
+      "cnpj_contratante": "24.672.792/0001-09",
+      "cnpj_contratada": "27.594.121/0001-65",
+      "contratada_razao_social": "Desenvolve Consultoria Ltda",
+      "numero_contrato_original": "Contrato inicial de 13/11/2023 (sem numero formal identificado no texto)",
+      "aditivos": [
+        {"numero": "1o aditivo", "data": "2024-10-23", "resumo": "Prorrogacao de prazo"},
+        {"numero": "2o aditivo (substituicao de parte)", "data": "2025-11-11 (assinado 2025-12-09)", "resumo": "Substituicao da contratada de Desenvolve Hospitais Ltda (CNPJ 48.986.804/0001-38) para Desenvolve Consultoria Ltda (CNPJ 27.594.121/0001-65); prorrogacao por 12 meses, de 23/11/2025 ate 22/11/2026; mantidas as demais clausulas e valor original"}
+      ],
+      "status": "vigente",
+      "objeto_resumo": "Consultoria e assessoria tecnica em gestao hospitalar: contratualizacao SUS, custo operacional hospitalar, CEBAS, faturamento, gerenciamento de riscos",
+      "valor_mensal": 23900.00,
+      "valor_mensal_origem": "explicito",
+      "valor_global_referencia": null,
+      "moeda": "BRL",
+      "reajuste_indice": "IPCA",
+      "reajuste_periodicidade": "acumulado, mediante mutuo acordo na renovacao",
+      "vigencia_inicio": "2025-11-23",
+      "vigencia_fim": "2026-11-22",
+      "dia_vencimento_pagamento": 10,
+      "fonte_arquivo_id": "1-H_8glbWPFrXmMb5b5NZrvAWGqHEXTv8",
+      "fonte_arquivo_nome": "2BA_Adit._Cont._Cons._Hosp._Cancer_Cuiaba_MT_-_PRORROGACAO_DE_PRAZO_E_FORNECEDOR_2025_assinado [assinado].pdf",
+      "observacoes": "IMPORTANTE: contrato original (13/11/2023) foi firmado com DESENVOLVE HOSPITAIS LTDA (CNPJ 48.986.804/0001-38), empresa irma dentro do Grupo Desenvolve, NAO com a entidade piloto (Desenvolve Consultoria Ltda, CNPJ 27.594.121/0001-65). O 2o aditivo (dez/2025) substituiu a contratada para a entidade piloto -- so a partir dessa data o contrato conta para o caixa de Desenvolve Consultoria e Hospitais. Precisa checar se ha outros contratos HOSPITALAR ainda em nome de Desenvolve Hospitais Ltda que NAO devem entrar nesta projecao."
+    }
+  ]
+}
