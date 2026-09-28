@@ -107,13 +107,27 @@ em `/Contratos Ativos e Faturamento Previsto/contratos_ativos_piloto.json`.
    `valor_mensal_origem: indisponivel` no catálogo, não um valor inventado.
 
 **Limitação técnica encontrada:** o conector MCP do Google Drive desta
-sessão **não tem permissão de delete/rename** (`trash_file` e
-`update_file` retornaram "The caller does not have permission" mesmo em
+sessão **não tem permissão de delete/rename/move** (`trash_file` e
+`update_file` retornam "The caller does not have permission", mesmo em
 pastas vazias criadas por mim). Não consegui apagar as 12 subpastas de mês
-obsoletas que criei em Contratos Ativos antes dessa mudança de modelo —
-**pedido: apague manualmente Janeiro–Dezembro dentro de `Contratos Ativos e
-Faturamento Previsto - Consultoria - 2026` no Drive**, é rápido pela
-interface web e eu não tenho esse escopo de permissão no momento.
+obsoletas que criei em Contratos Ativos antes dessa mudança de modelo, nem
+mover os arquivos duplicados/rascunho encontrados na auditoria.
+
+**Tentativa de correção (2026-09-28):** o Murilo marcou o app da
+Anthropic/Claude como "Confiável" no Google Admin Console (Segurança →
+Controle de dados e acesso → Controles de API → Gerenciar o acesso dos
+apps) e reconectou o conector Google Drive em claude.ai. Testado de novo
+logo em seguida — `trash_file` e `update_file` continuaram negando
+permissão, e o `installedServerId` do conector não mudou, indicando que a
+reconexão não gerou uma autorização OAuth nova de fato (só reconfirmou a
+existente). Próximo passo, se algum dia quiser insistir nisso: revogar o
+acesso do app em myaccount.google.com/permissions (não só desconectar em
+claude.ai) antes de reconectar, para forçar o Google a exibir a tela de
+consentimento do zero sob a nova política. Por ora, a limpeza segue manual
+— **pedido: apague manualmente Janeiro–Dezembro dentro de `Contratos
+Ativos e Faturamento Previsto - Consultoria - 2026`** e os itens listados
+em `docs/agente-cfo/contratos-para-revisao-do-time.md`, é rápido pela
+interface web.
 
 **Decisão sobre CNPJ duplo (2026-09-28, confirmada pelo Murilo):**
 contratos de qualquer empresa do Grupo Desenvolve (Desenvolve Consultoria
