@@ -124,9 +124,49 @@ fluxo de caixa gerencial, não pelo CNPJ formal de cada contrato. O campo
 `cnpj_contratada` continua sendo capturado em todo contrato, só que agora
 para auditoria/rastreabilidade, não como filtro de inclusão.
 
-**Próximo passo, em execução:** processando os outros 24 clientes (19
-CONSULTORIA + 5 HOSPITALAR restantes) com o mesmo método, via agentes em
-paralelo.
+**Concluído (2026-09-28):** os 24 clientes restantes foram processados por
+5 agentes em paralelo, um por lote. Catálogo completo (27 clientes: 21
+CONSULTORIA + 6 HOSPITALAR) salvo em
+`/Contratos Ativos e Faturamento Previsto/contratos_ativos.json` no Drive.
+27/27 registros válidos contra `schema.validate_contract` (o schema foi
+ajustado: campos como `cnpj_contratante`/`vigencia_inicio`/`fonte_arquivo_id`
+só são obrigatórios quando `status='vigente'` — um gap real de pasta vazia
+não tem nada pra citar).
+
+**Resultado agregado:**
+- 22 contratos vigentes com valor mensal confirmado
+- 5 gaps/indeterminados (2 pastas HOSPITALAR completamente vazias — Santa
+  Casa de Cajobi e Hospital Japonês Santa Cruz —, 1 pasta CONSULTORIA
+  vazia — Sales Oliveira —, 2 com último registro digital vencido há meses
+  sem renovação digitalizada — Nuporanga desde 05/2024, Catanduva desde
+  02/2026)
+- Total mensal vigente, CNPJs confirmados do grupo: **R$ 188.143,28**
+- Total incluindo Pindorama (CNPJ fora do grupo, ver abaixo): R$ 192.780,97
+
+**Achado que exige sua decisão explícita — não incluí no total:**
+Pindorama tem contrato vigente com **Instituto de Apoio ao SUS (IASUS) /
+"Mais Saúde"**, CNPJ 35.594.221/0001-10 — não é nenhum dos dois CNPJs do
+Grupo Desenvolve. Murilo Silveira Soares dos Santos assina o termo de
+ciência original como "Advogado" pela contratada, sugerindo alguma
+relação, mas os documentos não confirmam vínculo societário. **Não somei
+esse valor (R$4.637,69/mês) ao total consolidado** até você confirmar se
+esse contrato deveria estar na carteira do grupo ou é uma entidade
+parceira registrada por engano na pasta do Drive.
+
+**Outros achados operacionais (não bloqueiam, mas merecem atenção do
+time):**
+- **Viradouro**: contrato vence exatamente hoje (28/09/2026), sem 5º
+  aditivo no Drive — verificar se a renovação está em assinatura
+- **Bebedouro**: vigência do 3º aditivo estimada (documento não tem data
+  exata de início), muito próxima do vencimento, sem 4º aditivo ainda
+- **Pompéia**: contrato nunca migrou pro CNPJ piloto — segue com
+  Desenvolve Hospitais Ltda (48.986.804/0001-38), ao contrário do padrão
+  visto em Cuiabá
+- Vários contratos usam "Desenvolve Solutions Ltda" como razão social em
+  documentos mais antigos (mesmo CNPJ 27.594.121/0001-65 que hoje é
+  "Desenvolve Consultoria Ltda") — mudança de nome fantasia ao longo do
+  tempo, sem impacto no caixa, mas registrado em `contratada_razao_social`
+  exatamente como no documento-fonte
 
 ## O que eu faria a seguir, na sua posição
 

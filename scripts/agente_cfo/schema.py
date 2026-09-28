@@ -36,9 +36,10 @@ CONTRACT_SEGMENTS = ("consultoria", "hospitalar")
 CONTRACT_STATUS = ("vigente", "encerrado", "indeterminado")
 CONTRACT_VALOR_MENSAL_ORIGEM = ("explicito", "calculado_de_valor_global", "indisponivel")
 
-_REQUIRED_CONTRACT_FIELDS = (
-    "id", "cliente", "segmento", "cnpj_contratante", "cnpj_contratada",
-    "status", "objeto_resumo", "valor_mensal_origem",
+_REQUIRED_CONTRACT_FIELDS = ("id", "cliente", "segmento", "status", "valor_mensal_origem")
+
+_REQUIRED_CONTRACT_FIELDS_WHEN_DOCUMENTED = (
+    "cnpj_contratante", "cnpj_contratada", "objeto_resumo",
     "vigencia_inicio", "fonte_arquivo_id", "fonte_arquivo_nome",
 )
 
@@ -113,11 +114,23 @@ def validate_contract(contract: dict) -> list[str]:
     com valor_mensal None e valor_mensal_origem='indisponivel' e valido --
     significa que o documento nao permite apurar o valor com confianca, e
     isso deve ir pro relatorio como gap, nao ser inventado.
+
+    Campos como cnpj_contratante/cnpj_contratada/objeto_resumo/vigencia_inicio/
+    fonte_arquivo_id/fonte_arquivo_nome so sao obrigatorios quando
+    status='vigente' -- um contrato que estamos afirmando estar ativo
+    precisa ter fonte real. Para 'encerrado'/'indeterminado' (gaps, contratos
+    historicos, pastas vazias) esses campos podem ficar em branco, porque
+    muitas vezes nao ha nada pra citar.
     """
     errors = []
     for field in _REQUIRED_CONTRACT_FIELDS:
         if field not in contract or contract[field] in (None, ""):
             errors.append(f"campo obrigatorio ausente: {field}")
+
+    if contract.get("status") == "vigente":
+        for field in _REQUIRED_CONTRACT_FIELDS_WHEN_DOCUMENTED:
+            if field not in contract or contract[field] in (None, ""):
+                errors.append(f"campo obrigatorio ausente (contrato vigente precisa de fonte): {field}")
 
     if "segmento" in contract and contract["segmento"] not in CONTRACT_SEGMENTS:
         errors.append(f"segmento invalido: {contract['segmento']!r} (esperado {CONTRACT_SEGMENTS})")
