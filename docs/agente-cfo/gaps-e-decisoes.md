@@ -115,8 +115,18 @@ obsoletas que criei em Contratos Ativos antes dessa mudança de modelo —
 Faturamento Previsto - Consultoria - 2026` no Drive**, é rápido pela
 interface web e eu não tenho esse escopo de permissão no momento.
 
-**Próximo passo, pendente de confirmação:** processar os outros 23 clientes
-com o mesmo método, uma vez resolvida a questão do CNPJ duplo acima.
+**Decisão sobre CNPJ duplo (2026-09-28, confirmada pelo Murilo):**
+contratos de qualquer empresa do Grupo Desenvolve (Desenvolve Consultoria
+Ltda 27.594.121/0001-65 **e** Desenvolve Hospitais Ltda 48.986.804/0001-38,
+e qualquer outra que apareça) contam para o caixa consolidado do Agente
+CFO — tratamos o grupo como uma unidade operacional única pra fins de
+fluxo de caixa gerencial, não pelo CNPJ formal de cada contrato. O campo
+`cnpj_contratada` continua sendo capturado em todo contrato, só que agora
+para auditoria/rastreabilidade, não como filtro de inclusão.
+
+**Próximo passo, em execução:** processando os outros 24 clientes (19
+CONSULTORIA + 5 HOSPITALAR restantes) com o mesmo método, via agentes em
+paralelo.
 
 ## O que eu faria a seguir, na sua posição
 

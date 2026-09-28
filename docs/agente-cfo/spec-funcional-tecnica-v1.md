@@ -96,14 +96,17 @@ marcada `VIGENTE` sem nenhum arquivo dentro (gap real observado, ex:
 Sales Oliveira) — nesse caso o contrato fica sinalizado como
 `valor_mensal_origem: indisponivel`, nunca com valor inventado.
 
-**Achado importante sobre CNPJ:** o Grupo Desenvolve tem mais de uma
-empresa (pelo menos `Desenvolve Consultoria Ltda`, CNPJ
-27.594.121/0001-65 — a entidade piloto — e `Desenvolve Hospitais Ltda`,
-CNPJ 48.986.804/0001-38). Um contrato dentro da pasta `HOSPITALAR` pode ter
-sido originalmente firmado com a outra empresa e só migrado para o CNPJ
-piloto via aditivo de substituição de contratada. Por isso `cnpj_contratada`
-é campo obrigatório e verificado por contrato, individualmente — a pasta
-(`CONSULTORIA`/`HOSPITALAR`) não é um proxy confiável para "qual CNPJ".
+**Achado sobre CNPJ (decidido em 2026-09-28):** o Grupo Desenvolve tem mais
+de uma empresa (pelo menos `Desenvolve Consultoria Ltda`, CNPJ
+27.594.121/0001-65, e `Desenvolve Hospitais Ltda`, CNPJ
+48.986.804/0001-38). Um contrato dentro da pasta `HOSPITALAR` pode ter sido
+originalmente firmado com uma empresa e migrado para outra via aditivo de
+substituição de contratada. **Decisão do Murilo: contratos de qualquer
+CNPJ do grupo contam para o caixa consolidado do Agente CFO** — não se
+filtra por CNPJ, o grupo é tratado como uma unidade operacional única para
+fins de fluxo de caixa gerencial. Ainda assim, `cnpj_contratada` é campo
+obrigatório e verificado por contrato, individualmente, só que agora para
+auditoria/rastreabilidade, não como critério de inclusão.
 
 Campos (ver `scripts/agente_cfo/schema.py::validate_contract`):
 
