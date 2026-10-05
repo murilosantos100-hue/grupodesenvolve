@@ -134,6 +134,43 @@ def test_calcular_todos_kpis_integra_tudo():
     assert "runway_alerta" in resultado
 
 
+def test_saldo_atual_inclui_saldo_de_abertura():
+    entries = [entry("2026-08-05", "saida", "realizado", 2000)]
+    assert kpis.saldo_atual(entries, as_of="2026-08-31", saldo_abertura=7000) == 5000
+
+
+def test_runway_usa_saldo_de_abertura():
+    entries = [entry("2026-08-31", "saida", "realizado", 3000)]  # queima 100/dia na janela de 30d
+    # sem abertura o caixa e negativo -> 0 dias; com abertura de 10000 o caixa e 7000 -> 70 dias
+    assert kpis.runway_dias(entries, as_of="2026-08-31") == 0.0
+    assert kpis.runway_dias(entries, as_of="2026-08-31", saldo_abertura=10000) == 70.0
+
+
+def test_run_kpis_cli_suprime_runway_quando_faltam_contas():
+    import json
+    import subprocess
+    import tempfile
+
+    payload = {
+        "cash_flow_entries": [entry("2026-08-05", "saida", "realizado", 1000)],
+        "dre_lines": [],
+        "saldo_abertura": 5000,
+        "contas_faltantes": ["Banco do Brasil CC 36436-3"],
+    }
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as f:
+        json.dump(payload, f)
+    script = Path(__file__).resolve().parent.parent / "run_kpis.py"
+    out = subprocess.run(
+        [sys.executable, str(script), f.name, "2026-08-31"], capture_output=True, text=True, check=True
+    )
+    result = json.loads(out.stdout)
+    assert result["caixa_atual"] == 4000
+    assert result["runway_dias"] is None
+    assert result["runway_alerta"] == "indisponivel"
+    assert result["projecao_13_semanas"] == []
+    assert result["avisos"] == ["conta/fonte de caixa nao enviada: Banco do Brasil CC 36436-3"]
+
+
 def run_all():
     tests = [obj for name, obj in globals().items() if name.startswith("test_")]
     failed = 0

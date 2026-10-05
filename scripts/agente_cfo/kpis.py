@@ -26,14 +26,17 @@ def _signed_amount(entry: dict) -> float:
     return amount if entry["type"] == "entrada" else -amount
 
 
-def saldo_atual(entries: list[dict], as_of: str | None = None) -> float:
-    """Soma de entradas menos saidas realizadas, ate (e incluindo) `as_of`.
+def saldo_atual(entries: list[dict], as_of: str | None = None, saldo_abertura: float = 0.0) -> float:
+    """`saldo_abertura` mais entradas menos saidas realizadas, ate (e
+    incluindo) `as_of`.
 
     `as_of` no formato 'AAAA-MM-DD'. Se None, considera todos os lancamentos
-    'realizado' presentes.
+    'realizado' presentes. `saldo_abertura` e a soma dos saldos das contas no
+    inicio do periodo carregado (lido do cabecalho do extrato); sem ele, o
+    resultado e so o fluxo liquido do periodo, nao o saldo real em conta.
     """
     limite = _parse_date(as_of) if as_of else None
-    total = 0.0
+    total = float(saldo_abertura)
     for entry in entries:
         if entry["status"] != "realizado":
             continue
@@ -60,13 +63,15 @@ def queima_media_diaria(entries: list[dict], as_of: str, window_days: int = 30) 
     return round(net_saida / window_days, 2)
 
 
-def runway_dias(entries: list[dict], as_of: str, window_days: int = 30) -> float:
+def runway_dias(
+    entries: list[dict], as_of: str, window_days: int = 30, saldo_abertura: float = 0.0
+) -> float:
     """Dias de caixa restantes ao ritmo de queima observado nos ultimos
     `window_days` dias. Retorna float('inf') se a queima media for <= 0
     (caixa estavel ou crescendo) -- nesse caso NAO ha um numero finito de
     dias e o relatorio deve dizer "sem risco de runway", nao imprimir 'inf'.
     """
-    caixa = saldo_atual(entries, as_of=as_of)
+    caixa = saldo_atual(entries, as_of=as_of, saldo_abertura=saldo_abertura)
     queima = queima_media_diaria(entries, as_of=as_of, window_days=window_days)
     if queima <= 0:
         return INFINITO
@@ -85,7 +90,9 @@ def classificar_alerta_runway(dias: float, critico: int = 30, atencao: int = 60)
     return "ok"
 
 
-def projecao_13_semanas(entries: list[dict], as_of: str, semanas: int = 13) -> list[dict]:
+def projecao_13_semanas(
+    entries: list[dict], as_of: str, semanas: int = 13, saldo_abertura: float = 0.0
+) -> list[dict]:
     """Projeta saldo semana a semana usando a media semanal de fluxo liquido
     OBSERVADO (realizado) nos ultimos 90 dias antes de `as_of`.
 
@@ -104,7 +111,7 @@ def projecao_13_semanas(entries: list[dict], as_of: str, semanas: int = 13) -> l
             net_total += _signed_amount(entry)
     media_semanal = net_total / (90 / 7)
 
-    saldo = saldo_atual(entries, as_of=as_of)
+    saldo = saldo_atual(entries, as_of=as_of, saldo_abertura=saldo_abertura)
     resultado = []
     for semana in range(1, semanas + 1):
         saldo += media_semanal
@@ -170,6 +177,7 @@ def calcular_todos_kpis(
     dre_lines: list[dict],
     as_of: str,
     alert_thresholds: dict | None = None,
+    saldo_abertura: float = 0.0,
 ) -> dict:
     """Ponto de entrada unico usado pela skill: calcula todos os KPIs de
     uma vez e ja aplica a classificacao de alerta. `as_of` e a data de
@@ -179,13 +187,15 @@ def calcular_todos_kpis(
     critico = thresholds.get("runway_dias_critico", 30)
     atencao = thresholds.get("runway_dias_atencao", 60)
 
-    dias_runway = runway_dias(cash_flow_entries, as_of=as_of)
+    dias_runway = runway_dias(cash_flow_entries, as_of=as_of, saldo_abertura=saldo_abertura)
 
     return {
-        "caixa_atual": saldo_atual(cash_flow_entries, as_of=as_of),
+        "caixa_atual": saldo_atual(cash_flow_entries, as_of=as_of, saldo_abertura=saldo_abertura),
         "runway_dias": dias_runway,
         "runway_alerta": classificar_alerta_runway(dias_runway, critico=critico, atencao=atencao),
-        "projecao_13_semanas": projecao_13_semanas(cash_flow_entries, as_of=as_of),
+        "projecao_13_semanas": projecao_13_semanas(
+            cash_flow_entries, as_of=as_of, saldo_abertura=saldo_abertura
+        ),
         "margem_ebitda": margem_ebitda(dre_lines),
         "desvio_orcamentario": desvio_orcamentario(dre_lines),
         "contas_a_receber_vencidas": contas_a_receber_vencidas(cash_flow_entries, as_of=as_of),

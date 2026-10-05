@@ -81,10 +81,27 @@ definido em `docs/agente-cfo/spec-funcional-tecnica-v1.md` seção 2.
 
 Monte um único JSON:
 ```json
-{"cash_flow_entries": [...], "dre_lines": [...]}
+{"cash_flow_entries": [...], "dre_lines": [...],
+ "saldo_abertura": 7013.14, "contas_faltantes": []}
 ```
 e salve no seu scratchpad como `normalized_<periodo>.json`. Esse arquivo é
 o que vai para o backup (passo 3) e para o cálculo (passo 4).
+
+**Antes de calcular, confira a cobertura de caixa (lições da 1ª execução real,
+agosto/2026):**
+- `saldo_abertura`: some a linha "SALDO" inicial do cabeçalho de **cada**
+  extrato lido. Sem isso o "caixa atual" é só o fluxo líquido do mês, não o
+  saldo real.
+- Descubra em qual conta os clientes pagam (as NFS-e trazem "DADOS BANCÁRIOS").
+  Se o extrato dessa conta não foi enviado, ou se há conta com varredura/aplicação
+  automática cujo saldo não aparece, liste em `contas_faltantes`. Com a lista
+  não vazia o script **recusa** runway e projeção (viram `null`/`[]`) — não
+  contorne isso, reporte o gap.
+- Entradas de PIX/TED cujo CNPJ de origem é da própria entidade/grupo são
+  transferência interna, não receita: use `category: "transferencia_interna"`.
+  Saídas para holdings/sócios ficam como `transferencia` e vão para o financeiro
+  classificar (não presuma distribuição de lucros).
+- Resgate/aplicação financeira automática: `category: "aplicacao_financeira"`.
 
 Se um documento estiver ilegível ou ambíguo, não invente o valor — pule o
 lançamento e anote isso para incluir no relatório como observação, citando
@@ -106,8 +123,14 @@ o nome do arquivo.
 
 Rode:
 ```
-python3 scripts/agente_cfo/run_kpis.py <caminho do normalized_<periodo>.json> <data de hoje AAAA-MM-DD>
+python3 scripts/agente_cfo/run_kpis.py <caminho do normalized_<periodo>.json> <data-base AAAA-MM-DD>
 ```
+**Data-base:** use `min(hoje, último dia do período de referência)`. Se a
+avaliação rodar semanas depois do fechamento, usar "hoje" deixa a janela de 30
+dias de queima quase vazia (não há dado do mês seguinte carregado) e produz
+runway "infinito" por artefato — foi o que aconteceu em 28/09 com agosto.
+Prefira rodar a avaliação nos primeiros dias após o fechamento do mês.
+
 Use a saída JSON do script como os KPIs oficiais desta execução. Se o
 script falhar com `validation_errors`, corrija a extração no passo 2 (não
 tente contornar a validação) e rode de novo.
@@ -126,6 +149,9 @@ tente contornar a validação) e rode de novo.
 3. Faça upload do CSV resultante de volta para `/Resultados`, sobrescrevendo
    o arquivo anterior com o texto completo (histórico velho + linhas novas
    — nunca só as linhas novas).
+   **Não grave no histórico execuções com `avisos` (caixa incompleto):** o
+   `caixa_atual` delas não é comparável com meses completos e poluiria a
+   tendência. Registre a execução só em `/Resultados` (relatório).
 4. Calcule tendências (`history_csv.trend_for_metric`) para `caixa_atual` e
    `runway_dias` (e `margem_ebitda` se houver DRE em pelo menos 2 meses) —
    até 12 pontos cada — para a seção de evolução do relatório.

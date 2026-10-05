@@ -227,6 +227,48 @@ links diretos em `contratos-para-revisao-do-time.md`. **Nunca apagar** os
 placeholders `.txt` vazios de Brodowski/Nuporanga — são o único registro de
 que falta digitalizar um documento físico.
 
+## 8. Primeira execução real — agosto/2026 (2026-09-28, refeita em 2026-10-05)
+
+Fontes lidas: 25 NFS-e (R$ 226.337,85, todas emitidas em 03/08), 2 extratos
+Sicredi (Consultoria CC 70872-9 e Hospitalar CC 70117-9), **0 DRE**, Folha de
+Pagamento vazia, orçamento só consolidado do grupo.
+
+**O que a execução expôs (e o que foi corrigido no pipeline):**
+
+1. *Caixa sem saldo de abertura.* O script somava só os lançamentos do mês e
+   chamava isso de "caixa atual". Corrigido: `saldo_abertura` opcional no JSON
+   normalizado, lido do cabeçalho de cada extrato.
+2. *Caixa incompleto gera número confiante e errado.* Os clientes pagam no
+   Banco do Brasil (CC 36436-3, conforme as NFS-e); esse extrato não foi enviado.
+   A conta Consultoria do Sicredi é de varredura (abre e fecha em R$ 0,00, saldo
+   na aplicação automática, cujo saldo não aparece). O relatório v1 (28/09)
+   afirmou "saldo real R$ 4.851,02 / runway ~67 dias" — **erro meu**: era só a
+   soma de duas contas correntes. Corrigido: `contas_faltantes` no JSON; se
+   não vazio, `run_kpis.py` devolve runway `null` e projeção `[]` + `avisos`.
+3. *Data-base.* Usar "hoje" como âncora da janela de 30 dias com a avaliação
+   rodando semanas depois do fechamento dá runway "infinito" por artefato.
+   Regra nova na skill: `min(hoje, fim do período)`; rodar nos primeiros dias
+   do mês seguinte.
+4. *Transferências internas contadas como entrada.* R$ 223.000 das "entradas"
+   do Sicredi são PIX do mesmo CNPJ da entidade (27.594.121/0001-65). A skill
+   agora manda classificá-las como `transferencia_interna`. **Ainda não existe
+   tratamento automático** dessa categoria nos KPIs (hoje só o aviso de conta
+   faltante evita o erro).
+5. *"Contas a receber vencidas"* usa a data de emissão da NFS-e como se fosse
+   vencimento, e sem o extrato do BB não há como saber o que foi pago. Não ler
+   como inadimplência. Melhoria: cruzar com `dia_vencimento_pagamento` do
+   catálogo de contratos.
+
+**Pendências para fechar agosto (dependem de documentos, não de código):**
+extrato BB CC 36436-3 e demais contas; saldo das aplicações em 01/08 e 31/08;
+DRE de agosto; folha detalhada; classificação das transferências de R$ 40.000
+para Nedalyn Participações (R$ 25.000) e Axis M7 Participações (R$ 15.000) em
+10/08.
+
+**Arquivos a remover manualmente do Drive** (o conector não apaga): relatório e
+`Historico_Avaliacoes.csv` v1 em `/Resultados` (contêm caixa/runway
+incorretos) — o histórico deve ficar vazio até haver uma execução completa.
+
 ## O que eu faria a seguir, na sua posição
 
 Direto: o gargalo real deste piloto não é mais engenharia nem estrutura de

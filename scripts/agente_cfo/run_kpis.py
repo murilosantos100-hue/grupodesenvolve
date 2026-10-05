@@ -6,7 +6,16 @@ Uso:
     python3 run_kpis.py <arquivo_normalizado.json> <as_of AAAA-MM-DD> [config.json]
 
 `arquivo_normalizado.json` deve conter:
-    {"cash_flow_entries": [...], "dre_lines": [...]}
+    {"cash_flow_entries": [...], "dre_lines": [...], "saldo_abertura": 7013.14}
+
+`contas_faltantes` (opcional, lista de strings): contas bancarias/fontes de caixa
+que existem mas nao foram enviadas. Se nao vazia, runway e projecao de 13
+semanas NAO sao calculados (viram null/[]) e a lista vai em `avisos` --
+calcular em cima de caixa incompleto produz numero confiante e errado.
+
+`saldo_abertura` (opcional, default 0) e a soma dos saldos de todas as contas
+no inicio do periodo carregado, lido do cabecalho de cada extrato. Sem ele,
+`caixa_atual` e so o fluxo liquido do periodo, nao o saldo real em conta.
 
 Cada item e validado contra schema.py antes do calculo; se houver erro de
 validacao, o script falha alto (exit code 1) com a lista de erros em vez de
@@ -37,6 +46,8 @@ def main() -> int:
     data = json.loads(normalized_path.read_text(encoding="utf-8"))
     cash_flow_entries = data.get("cash_flow_entries", [])
     dre_lines = data.get("dre_lines", [])
+    saldo_abertura = float(data.get("saldo_abertura", 0.0))
+    contas_faltantes = list(data.get("contas_faltantes", []))
 
     errors = []
     for i, entry in enumerate(cash_flow_entries):
@@ -55,9 +66,16 @@ def main() -> int:
         cfg = json.loads(config_path.read_text(encoding="utf-8"))
         thresholds = cfg.get("alert_thresholds", {})
 
-    result = kpis.calcular_todos_kpis(cash_flow_entries, dre_lines, as_of=as_of, alert_thresholds=thresholds)
+    result = kpis.calcular_todos_kpis(
+        cash_flow_entries, dre_lines, as_of=as_of, alert_thresholds=thresholds, saldo_abertura=saldo_abertura
+    )
 
-    if result["runway_dias"] == float("inf"):
+    if contas_faltantes:
+        result["runway_dias"] = None
+        result["runway_alerta"] = "indisponivel"
+        result["projecao_13_semanas"] = []
+        result["avisos"] = [f"conta/fonte de caixa nao enviada: {c}" for c in contas_faltantes]
+    elif result["runway_dias"] == float("inf"):
         result["runway_dias"] = "infinito"
 
     print(json.dumps(result, ensure_ascii=False, indent=2))

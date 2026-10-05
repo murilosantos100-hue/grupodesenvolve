@@ -16,13 +16,15 @@ def _fmt_pct(valor: float) -> str:
     return f"{valor * 100:.1f}%"
 
 
-def _fmt_runway(dias: float) -> str:
+def _fmt_runway(dias: float | None) -> str:
+    if dias is None:
+        return "indisponível (caixa incompleto — ver avisos)"
     if dias == float("inf"):
         return "sem risco de esgotamento no ritmo atual (caixa estavel ou positivo)"
     return f"{dias:.0f} dias"
 
 
-_ALERTA_LABEL = {"critico": "🔴 CRÍTICO", "atencao": "🟡 ATENÇÃO", "ok": "🟢 OK"}
+_ALERTA_LABEL = {"critico": "🔴 CRÍTICO", "atencao": "🟡 ATENÇÃO", "ok": "🟢 OK", "indisponivel": "⚪ n/d"}
 
 
 def render_report(context: dict) -> str:
@@ -51,7 +53,8 @@ def render_report(context: dict) -> str:
     linhas.append("")
 
     linhas.append("## Situação de caixa")
-    linhas.append(f"- **Caixa atual:** {_fmt_moeda(kpis['caixa_atual'])}")
+    rotulo_caixa = "Saldo das contas incluídas" if kpis.get("avisos") else "Caixa atual"
+    linhas.append(f"- **{rotulo_caixa}:** {_fmt_moeda(kpis['caixa_atual'])}")
     alerta = kpis.get("runway_alerta", "ok")
     linhas.append(
         f"- **Runway:** {_fmt_runway(kpis['runway_dias'])} — {_ALERTA_LABEL.get(alerta, alerta)}"
@@ -59,20 +62,25 @@ def render_report(context: dict) -> str:
     linhas.append(
         f"- **Contas a receber vencidas:** {_fmt_moeda(kpis['contas_a_receber_vencidas'])}"
     )
+    for aviso in kpis.get("avisos", []):
+        linhas.append(f"- ⚠️ {aviso}")
     linhas.append("")
 
     linhas.append("## Projeção de 13 semanas")
     linhas.append(
-        "> ⚠️ **Projeção baseada apenas em fluxo observado (histórico).** Não inclui "
-        "contratos ativos/faturamento previsto nem folha de pagamento futura, porque "
-        "essas fontes ainda não existem no Drive. Trate como piso otimista, não como "
-        "previsão completa."
+        "> ⚠️ **Projeção baseada apenas em fluxo observado (histórico).** Não usa o "
+        "catálogo de contratos ativos/faturamento previsto (existe no Drive, mas "
+        "ainda não está integrado ao cálculo) nem folha de pagamento futura. "
+        "Trate como piso otimista, não como previsão completa."
     )
     linhas.append("")
-    linhas.append("| Semana | Saldo projetado |")
-    linhas.append("|---|---|")
-    for item in kpis["projecao_13_semanas"]:
-        linhas.append(f"| {item['semana']} | {_fmt_moeda(item['saldo_projetado'])} |")
+    if kpis["projecao_13_semanas"]:
+        linhas.append("| Semana | Saldo projetado |")
+        linhas.append("|---|---|")
+        for item in kpis["projecao_13_semanas"]:
+            linhas.append(f"| {item['semana']} | {_fmt_moeda(item['saldo_projetado'])} |")
+    else:
+        linhas.append("**Indisponível neste ciclo** — falta(m) conta(s) de caixa (ver avisos acima).")
     linhas.append("")
 
     linhas.append("## DRE do mês")
@@ -122,8 +130,8 @@ def render_report(context: dict) -> str:
         gap_items.append("Orçamento por unidade/mês ausente — desvio orçamentário não calculável.")
     if not gaps.get("folha_pagamento_disponivel", True):
         gap_items.append(
-            "Pasta de Folha de Pagamento ainda não existe — maior linha de despesa "
-            "normalmente não está no fluxo de caixa lido."
+            "Sem documentos de Folha de Pagamento para o período — a maior linha de "
+            "despesa aparece só como débito agregado no extrato, sem detalhe por pessoa."
         )
     if not gaps.get("contratos_ativos_disponivel", True):
         gap_items.append(
