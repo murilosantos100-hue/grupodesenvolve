@@ -30,9 +30,9 @@ O link com `#en` abre em inglês, e `#s5` abre no slide 5.
 - **Dados de contexto, método e logos de parceiros:** Apresentação Gov Consultoria 2025.
 - **Cores e tipografia:** Manual de Marca.
 
-## Logos pendentes
+## Logos
 
-Boehringer Ingelheim, UCB e Besins Healthcare aparecem como nome em texto até os arquivos chegarem. Para trocar, salve em `assets/` como `logo-boehringer-ingelheim.png`, `logo-ucb.png` e `logo-besins.png` (PNG com fundo transparente ou SVG) e rode `python3 build.py`.
+Cada logo fica em `assets/` como `logo-<nome>.png`. No HTML, o marcador `{{LOGO:nome|Nome}}` usa o arquivo quando ele existe e, se não existir, mostra o nome em texto. Depois de trocar ou adicionar logos, rode `python3 build.py`.
 
 ## Fontes dos números do SUS (slides 2 e 3)
 
