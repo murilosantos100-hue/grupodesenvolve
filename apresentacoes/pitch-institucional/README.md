@@ -1,6 +1,6 @@
 # Pitch institucional — Grupo Desenvolve
 
-Apresentação curta (12 slides) para parceiros e investidores, em HTML autocontido, PT/EN.
+Apresentação curta (11 slides) para parceiros e investidores, em HTML autocontido, PT/EN.
 
 **Abrir:** `index.html` direto no navegador. Funciona offline. Sem internet, as fontes Raleway e Montserrat são substituídas por fontes do sistema.
 

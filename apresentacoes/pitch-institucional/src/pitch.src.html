@@ -204,16 +204,6 @@ p{margin:0}
 .plate.dim b{font:700 20px/1 var(--display)}
 .plate.dim span{font:400 15px/1.4 var(--body);color:var(--mist)}
 
-/* ---------- 10 · governança ---------- */
-.gov{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:44px}
-.gv{display:grid;grid-template-columns:64px 1fr;gap:22px;padding:28px 30px;border-radius:18px;border:1px solid var(--line);background:rgba(21,26,107,.5)}
-.gv .ic{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(140deg,var(--blue),var(--cyan))}
-.gv .ic svg{width:32px;height:32px;stroke:var(--white);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.gv strong{display:block;font:700 24px/1.2 var(--display)}
-.gv span{display:block;margin-top:8px;font:400 17px/1.5 var(--body);color:var(--mist)}
-.gov-quote{margin-top:auto;font:300 26px/1.35 var(--display);color:var(--white);max-width:1100px}
-.gov-quote b{font-weight:700;color:var(--cyan)}
-
 /* ---------- 11 · encerramento ---------- */
 .s-close{justify-content:center;align-items:flex-start}
 .s-close .pattern{position:absolute;right:-40px;top:50%;width:640px;transform:translateY(-50%);opacity:.18}
@@ -474,20 +464,6 @@ p{margin:0}
     <p class="gloss" style="margin-top:22px" data-k="r.g"></p>
   </section>
 
-  <!-- 10 · GOVERNANÇA -->
-  <section class="slide s-gov" aria-label="10">
-    <div class="eyebrow rv" data-k="g.eye">Governança e integridade</div>
-    <h2 class="rv" style="--i:1;margin-top:22px" data-k="g.h">Estrutura pronta para <b>crescer com segurança.</b></h2>
-    <div class="gov">
-      <div class="gv rv" style="--i:2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg></div><div><strong data-k="g.1">Base Documental aprovada</strong><span data-k="g.1t">Documento Fundador, Código de Cultura e dez normas constitucionais orientam todas as unidades.</span></div></div>
-      <div class="gv rv" style="--i:3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v18M4 7h16M7 7l-3 7a3 3 0 0 0 6 0zM17 7l-3 7a3 3 0 0 0 6 0z"/></svg></div><div><strong data-k="g.2">Público e indústria separados</strong><span data-k="g.2t">Pessoas jurídicas, equipes e informações distintas. Uma atuação nunca é usada para influenciar a outra.</span></div></div>
-      <div class="gv rv" style="--i:4"><div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><div><strong data-k="g.3">Proteção de dados</strong><span data-k="g.3t">Política de privacidade alinhada à LGPD, Encarregado designado e segurança da informação.</span></div></div>
-      <div class="gv rv" style="--i:5"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><strong data-k="g.4">Integridade e anticorrupção</strong><span data-k="g.4t">Código de Conduta, política anticorrupção e Canal de Integridade em funcionamento.</span></div></div>
-    </div>
-    <p class="gov-quote rv" style="--i:6" data-k="g.q">Compromisso inegociável: tratar a coisa pública com probidade e <b>declarar apenas o que é verdadeiro e praticado.</b></p>
-    <p class="gloss" data-k="g.g"></p>
-  </section>
-
   <!-- 11 · ENCERRAMENTO -->
   <section class="slide s-close" aria-label="11">
     <img class="pattern" src="{{pattern-d.png}}" alt="">
@@ -513,7 +489,7 @@ p{margin:0}
       <button id="lang-en" aria-pressed="false">EN</button>
     </div>
     <button class="ctl" id="fs" title="Tela cheia (F)" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-    <span class="count num" id="count">01 / 12</span>
+    <span class="count num" id="count">01 / 11</span>
   </nav>
   <div class="hint" id="hint" data-k="hint">← → navegar · L idioma · F tela cheia · B tela preta</div>
 </main>
@@ -624,14 +600,6 @@ const EN = {
  'r.4':'Independent partner',
  'r.4t':'Institute for SUS Support, a non-profit partner of the Group with its own work in training and management support.',
  'r.g':'<b>CONASEMS</b>: National Council of Municipal Health Secretaries. · <b>COSEMS</b>: the state-level councils (PR = Paraná, PI = Piauí, AC = Acre).',
- 'g.eye':'Governance and integrity',
- 'g.h':'A structure built to <b>scale safely.</b>',
- 'g.1':'Approved governance framework','g.1t':'A Founding Charter, a Culture Code and ten constitutional policies guide every unit.',
- 'g.2':'Public and industry work kept apart','g.2t':'Separate legal entities, teams and information. One side is never used to influence the other.',
- 'g.3':'Data protection','g.3t':'Privacy policy aligned with LGPD, a designated Data Protection Officer and information-security rules.',
- 'g.4':'Integrity and anti-corruption','g.4t':'Code of Conduct, anti-corruption policy and an active Integrity Channel.',
- 'g.q':'Non-negotiable: handle public resources with probity and <b>state only what is true and actually practiced.</b>',
- 'g.g':'<b>LGPD</b>: Brazil\'s General Data Protection Law, comparable to the EU GDPR.',
  'e.eye':'Let\'s talk',
  'e.h':'Transforming lives through <b>public health.</b>',
  'e.p':'We are looking for partners who share our ambition to bring smart solutions to every municipality in Brazil.',
