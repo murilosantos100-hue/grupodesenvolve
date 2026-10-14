@@ -35,13 +35,13 @@ body.idle{cursor:none}
 
 /* ---------- slides ---------- */
 .slide{position:absolute;inset:0;padding:84px 120px 132px;display:flex;flex-direction:column;
-  opacity:0;visibility:hidden;transform:scale(1.015);
-  transition:opacity .7s ease,transform .9s cubic-bezier(.2,.7,.1,1),visibility 0s linear .7s}
+  opacity:0;visibility:hidden;transform:scale(.985);
+  transition:opacity .22s ease,transform .22s ease,visibility 0s linear .22s}
 .slide.active{opacity:1;visibility:visible;transform:none;
-  transition:opacity .7s ease,transform .9s cubic-bezier(.2,.7,.1,1),visibility 0s}
+  transition:opacity .6s ease .22s,transform .9s cubic-bezier(.2,.7,.1,1) .22s,visibility 0s}
 .rv{--i:0}
 .slide.active .rv{animation:rise .9s cubic-bezier(.2,.75,.15,1) both;animation-delay:calc(var(--i) * 85ms + 120ms)}
-@keyframes rise{from{opacity:0;transform:translateY(26px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes rise{from{opacity:0;transform:translateY(22px);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
 @media (prefers-reduced-motion:reduce){
   .slide,.slide.active{transition:opacity .2s}
   .slide.active .rv{animation:none}
@@ -82,6 +82,7 @@ p{margin:0}
 .stat{border:1px solid var(--line);border-radius:18px;padding:30px 32px;background:rgba(21,26,107,.55);
   display:flex;flex-direction:column;gap:12px;backdrop-filter:blur(6px)}
 .stat .big{font:800 64px/1 var(--display);color:var(--white);letter-spacing:-.02em}
+.stat .big .pre{font-size:.55em;font-weight:600;color:var(--cyan);margin-right:6px}
 .stat .big small{font-size:.5em;font-weight:600;color:var(--cyan);margin-left:6px}
 .stat p{font:400 18px/1.45 var(--body);color:var(--mist)}
 .stat.hero{grid-row:span 2;background:linear-gradient(160deg,var(--blue) 0%,var(--ink-2) 100%);border-color:transparent;justify-content:space-between}
@@ -91,6 +92,18 @@ p{margin:0}
 .ctx-kicker{grid-column:2 / span 2;border-left:3px solid var(--cyan);padding:6px 0 6px 26px;align-self:center;
   font:300 30px/1.3 var(--display);color:var(--white)}
 .ctx-kicker b{font-weight:700;color:var(--cyan)}
+
+/* ---------- 3 · referência mundial ---------- */
+.s-world .photo{position:absolute;inset:0;background:url({{foto-saude.webp}}) center/cover;opacity:.28}
+.s-world .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--ink) 0%,rgba(13,17,80,.55) 50%,var(--ink) 100%)}
+.world{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:0;margin:auto 0;border-top:1px solid var(--line)}
+.world > div{padding:40px 56px 0 0;display:flex;flex-direction:column;gap:16px}
+.world > div + div{padding-left:56px;border-left:1px solid var(--line)}
+.world .v{font:800 150px/.9 var(--display);letter-spacing:-.035em;white-space:nowrap}
+.world .v small{font-size:.36em;font-weight:600;color:var(--cyan);margin-left:12px;letter-spacing:0}
+.world h3{font:700 28px/1.2 var(--display);color:var(--white)}
+.world p{font:400 19px/1.5 var(--body);color:var(--mist);max-width:40ch}
+.world p b{color:var(--cyan);font-weight:600}
 
 /* ---------- 3 · propósito ---------- */
 .mpa{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:56px;border-top:1px solid var(--line)}
@@ -109,7 +122,8 @@ p{margin:0}
 .tl{position:relative;flex:1;margin-top:20px}
 .tl .axis{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
 .tl .axis i{position:absolute;inset:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transform-origin:0 50%;transform:scaleX(1)}
-.slide.active .tl .axis i.draw{animation:draw 2.2s cubic-bezier(.4,.1,.2,1) both .25s}
+.slide.active .tl .axis i.draw{animation:draw 1.9s cubic-bezier(.45,.05,.35,1) both .3s}
+.slide.active .tl li.rv{animation-delay:calc(var(--i) * 175ms)}
 @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .tl ol{list-style:none;margin:0;padding:0;position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr)}
 .tl li{position:relative;height:100%}
@@ -168,7 +182,7 @@ p{margin:0}
 /* ---------- 8 · números ---------- */
 .s-numbers .photo{position:absolute;inset:0;background:url({{foto-cidade.webp}}) center/cover;opacity:.32}
 .s-numbers .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--ink) 0%,rgba(13,17,80,.6) 45%,var(--ink) 100%)}
-.kpis{position:relative;display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:0;margin-top:auto;margin-bottom:28px;border-top:1px solid var(--line)}
+.kpis{position:relative;display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:0;margin:auto 0;border-top:1px solid var(--line)}
 .kpi{padding:38px 28px 0 0;display:flex;flex-direction:column;gap:14px}
 .kpi + .kpi{padding-left:32px;border-left:1px solid var(--line)}
 .kpi .v{font:800 104px/0.95 var(--display);letter-spacing:-.03em;color:var(--white);white-space:nowrap}
@@ -179,12 +193,13 @@ p{margin:0}
 .s-numbers .src{position:relative}
 
 /* ---------- 9 · parcerias ---------- */
-.prt{display:grid;grid-template-columns:260px 1fr;gap:14px 30px;margin-top:40px;align-items:center}
+.prt{display:grid;grid-template-columns:250px minmax(0,1fr);gap:14px 30px;margin-top:40px;align-items:center}
 .prt .lbl strong{display:block;font:700 22px/1.2 var(--display);color:var(--white)}
 .prt .lbl span{display:block;margin-top:6px;font:400 14px/1.4 var(--body);color:var(--mist)}
-.plate{background:var(--plate);border-radius:16px;padding:22px 34px;display:flex;align-items:center;justify-content:space-around;gap:34px;min-height:112px}
-.plate img{height:56px;width:auto;max-width:200px;object-fit:contain}
+.plate{min-width:0;background:var(--plate);border-radius:16px;padding:20px 30px;display:flex;align-items:center;justify-content:space-between;gap:26px;min-height:108px}
+.plate img{height:52px;width:auto;max-width:180px;min-width:0;object-fit:contain}
 .plate img.tall{height:74px}
+.plate .word{font:700 17px/1.15 var(--body);text-align:center;color:#1d2a5c;letter-spacing:.01em;border:1.5px dashed #b8c4ec;border-radius:8px;padding:12px 14px}
 .plate.dim{background:rgba(255,255,255,.06);border:1px dashed var(--line);justify-content:flex-start;gap:16px;min-height:0;padding:20px 28px}
 .plate.dim b{font:700 20px/1 var(--display)}
 .plate.dim span{font:400 15px/1.4 var(--body);color:var(--mist)}
@@ -211,7 +226,8 @@ p{margin:0}
 
 /* ---------- barra de controle ---------- */
 .bar{position:absolute;left:120px;right:120px;bottom:44px;display:flex;align-items:center;gap:28px;z-index:5}
-.bar .mini{width:150px;opacity:.9}
+.bar .mini{width:150px;opacity:.9;transition:opacity .4s}
+.bar .mini.off{opacity:0}
 .dots{display:flex;gap:8px;flex:1;justify-content:center}
 .dots button{width:34px;height:4px;border-radius:2px;border:0;padding:0;background:rgba(184,196,236,.25);cursor:pointer;position:relative}
 .dots button::after{content:"";position:absolute;inset:-10px 0}
@@ -269,22 +285,44 @@ p{margin:0}
         <span class="src" data-k="x.s1s">Fontes: IBGE; ANS</span>
       </div>
       <div class="stat rv" style="--i:3">
-        <div class="big num">5.571</div>
-        <p data-k="x.s2">municípios responsáveis pela gestão local da saúde, cada um com suas regras, metas e prestações de contas.</p>
-        <span class="src">IBGE, 2025</span>
+        <div class="big num"><span class="pre">R$</span><span class="c" data-to="271.3" data-dec="1">271,3</span><small data-k="x.bi">bi</small></div>
+        <p data-k="x.s2">é o orçamento do Ministério da Saúde para 2026.</p>
+        <span class="src" data-k="x.s2s">LOA 2026 sancionada (Futuro da Saúde; Fundação Perseu Abramo)</span>
       </div>
       <div class="stat rv" style="--i:4">
-        <div class="big num" data-k="x.s3v">R$ 452<small>bi</small></div>
-        <p data-k="x.s3">investidos em saúde pública por União, estados e municípios em 2022, cerca de 4,6% do PIB.</p>
-        <span class="src">IBGE, 2022</span>
+        <div class="big num"><span class="c" data-to="5.03" data-dec="2">5,03</span><small data-k="x.pib">% do PIB</small></div>
+        <p data-k="x.s3">em gasto público com saúde em 2024, somando União, estados e municípios.</p>
+        <span class="src" data-k="x.s3s">Tesouro Nacional, relatório COFOG 2024</span>
       </div>
-      <p class="ctx-kicker rv" style="--i:5" data-k="x.k">Em agosto de 2024, <b>R$ 35,7 bilhões</b> estavam parados em contas de fundos públicos de saúde. Recurso existe. Falta capacidade de gestão para transformá-lo em cuidado.</p>
+      <p class="ctx-kicker rv" style="--i:5" data-k="x.k">Em <b>5.571 municípios</b>, é a gestão que transforma recurso em cuidado. Em agosto de 2024, <b>R$ 35,7 bilhões</b> estavam parados em contas de fundos públicos de saúde.</p>
     </div>
     <p class="src rv" style="--i:6;margin-top:14px" data-k="x.src">Saldo em conta: InvestSUS / Ministério da Saúde, dados até 31/08/2024.</p>
     <p class="gloss" data-k="x.g"></p>
   </section>
 
-  <!-- 3 · PROPÓSITO -->
+  <!-- 3 · REFERÊNCIA MUNDIAL -->
+  <section class="slide s-world" aria-label="3">
+    <div class="photo" aria-hidden="true"></div>
+    <div class="eyebrow rv" style="position:relative" data-k="w.eye">Referência mundial</div>
+    <h2 class="rv" style="--i:1;margin-top:22px;position:relative" data-k="w.h">Quando a gestão funciona, o SUS entrega <b>em escala mundial.</b></h2>
+    <div class="world">
+      <div class="rv" style="--i:2">
+        <div class="v num"><span class="c" data-to="31.7" data-dec="1">31,7</span><small data-k="w.mil">mil</small></div>
+        <h3 data-k="w.1h">transplantes em 2025, recorde histórico</h3>
+        <p data-k="w.1p">O Brasil mantém o <b>maior sistema público de transplantes do mundo</b>, com 21% mais procedimentos que em 2022.</p>
+        <span class="src" data-k="w.1s">Ministério da Saúde, maio de 2026</span>
+      </div>
+      <div class="rv" style="--i:3">
+        <div class="v num"><span class="c" data-to="829">829</span><small data-k="w.mil2">mil</small></div>
+        <h3 data-k="w.2h">pessoas em tratamento gratuito para HIV</h3>
+        <p data-k="w.2p">Acesso universal ao tratamento antirretroviral. <b>95%</b> das pessoas monitoradas estão com carga viral suprimida.</p>
+        <span class="src" data-k="w.2s">Ministério da Saúde, Monitoramento Integrado do Cuidado do HIV e da Aids 2025 (dados de 2024)</span>
+      </div>
+    </div>
+    <p class="gloss" style="position:relative" data-k="w.g"></p>
+  </section>
+
+  <!-- 4 · PROPÓSITO -->
   <section class="slide s-purpose" aria-label="3">
     <div class="eyebrow rv" data-k="p.eye">Quem somos</div>
     <h2 class="rv" style="--i:1;margin-top:22px" data-k="p.h">Pessoas com formações diferentes, unidas por <b>uma responsabilidade comum.</b></h2>
@@ -422,10 +460,13 @@ p{margin:0}
         <img class="tall" src="{{logo-dabi-startup.png}}" alt="DABI Startup">
       </div>
       <div class="lbl rv" style="--i:4"><strong data-k="r.3">Indústria</strong><span data-k="r.3t">Clientes da Desenvolve Pharma</span></div>
-      <div class="plate rv" style="--i:4;justify-content:flex-start;gap:70px">
-        <img src="{{logo-organon.png}}" alt="Organon" style="height:40px">
+      <div class="plate rv" style="--i:4">
+        <img src="{{logo-organon.png}}" alt="Organon" style="height:34px">
         <img class="tall" src="{{logo-bayer.png}}" alt="Bayer">
         <img src="{{logo-abbott.png}}" alt="Abbott" style="height:46px">
+        {{LOGO:boehringer-ingelheim|Boehringer Ingelheim}}
+        {{LOGO:ucb|UCB}}
+        {{LOGO:besins|Besins Healthcare}}
       </div>
       <div class="lbl rv" style="--i:5"><strong data-k="r.4">Parceiro independente</strong></div>
       <div class="plate dim rv" style="--i:5"><b>IASUS</b><span data-k="r.4t">Instituto de Apoio ao SUS, associação sem fins lucrativos parceira do Grupo, com atuação própria em formação e apoio à gestão.</span></div>
@@ -472,7 +513,7 @@ p{margin:0}
       <button id="lang-en" aria-pressed="false">EN</button>
     </div>
     <button class="ctl" id="fs" title="Tela cheia (F)" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-    <span class="count num" id="count">01 / 11</span>
+    <span class="count num" id="count">01 / 12</span>
   </nav>
   <div class="hint" id="hint" data-k="hint">← → navegar · L idioma · F tela cheia · B tela preta</div>
 </main>
@@ -505,12 +546,25 @@ const EN = {
  'x.s1v':'3 in 4',
  'x.s1':'Brazilians rely exclusively on SUS for their healthcare.',
  'x.s1s':'Sources: IBGE; ANS',
- 'x.s2':'municipalities each run local healthcare, with their own rules, targets and reporting duties.',
- 'x.s3v':'R$ 452<small>bn</small>',
- 'x.s3':'spent on public health by federal, state and municipal governments in 2022, about 4.6% of GDP (≈ US$ 85 bn).',
- 'x.k':'In August 2024, <b>R$ 35.7 billion</b> sat unspent in public health fund accounts. The money exists. What is missing is the management capacity to turn it into care.',
+ 'x.bi':'bn',
+ 'x.s2':'is the Ministry of Health budget for 2026, in Brazilian reais.',
+ 'x.s2s':'2026 Federal Budget Law, as enacted (Futuro da Saúde; Fundação Perseu Abramo)',
+ 'x.pib':'% of GDP',
+ 'x.s3':'in public health spending in 2024, across federal, state and municipal governments.',
+ 'x.s3s':'Brazilian National Treasury, COFOG report 2024',
+ 'x.k':'Across <b>5,571 municipalities</b>, management is what turns funding into care. In August 2024, <b>R$ 35.7 billion</b> sat unspent in public health fund accounts.',
+ 'w.eye':'A global benchmark',
+ 'w.h':'When management works, SUS delivers <b>at global scale.</b>',
+ 'w.mil':'k','w.mil2':'k',
+ 'w.1h':'transplants in 2025, an all-time record',
+ 'w.1p':'Brazil runs the <b>world\'s largest public transplant system</b>, with 21% more procedures than in 2022.',
+ 'w.1s':'Ministry of Health, May 2026',
+ 'w.2h':'people receiving free HIV treatment',
+ 'w.2p':'Universal access to antiretroviral therapy. <b>95%</b> of monitored patients have a suppressed viral load.',
+ 'w.2s':'Ministry of Health, Integrated HIV/AIDS Care Monitoring 2025 (2024 data)',
+ 'w.g':'<b>Viral suppression</b>: HIV kept at undetectable levels by treatment, which also prevents transmission. The share refers to patients with a viral-load test in the previous 180 days.',
  'x.src':'Unspent balances: InvestSUS / Ministry of Health, data through 31 Aug 2024.',
- 'x.g':'<b>SUS</b> (Sistema Único de Saúde): Brazil\'s tax-funded, universal and free public health system, created by the 1988 Constitution. · <b>IBGE</b>: national statistics office. · <b>ANS</b>: regulator of private health plans. · <b>InvestSUS</b>: Ministry of Health portal tracking federal transfers to state and municipal health funds.',
+ 'x.g':'<b>SUS</b> (Sistema Único de Saúde): Brazil\'s tax-funded, universal and free public health system, created by the 1988 Constitution. · <b>IBGE</b>: national statistics office. · <b>ANS</b>: regulator of private health plans. · <b>InvestSUS</b>: Ministry of Health portal tracking federal transfers to state and municipal health funds. · <b>R$</b>: Brazilian real.',
  'p.eye':'Who we are',
  'p.h':'People from different backgrounds, united by <b>a shared responsibility.</b>',
  'p.m':'Mission','p.mt':'To positively transform lives through <b>smart public health solutions.</b>',
@@ -613,12 +667,18 @@ function renderKpis(){
     return `<div class="kpi rv" style="--i:${i+2}"><div class="v num">${pre}<span class="c" data-to="${target}">${fmt(target)}</span>${suf}</div><p>${desc}</p></div>`;
   }).join('');
 }
+function fmtD(n,d){return n.toLocaleString(lang==='en'?'en-US':'pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function setStatic(){document.querySelectorAll('.c[data-to]').forEach(el=>{el.textContent=fmtD(+el.dataset.to,+(el.dataset.dec||0))})}
+let countRun=0;
 function countUp(){
+  const run=++countRun;
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   slides[cur].querySelectorAll('.c[data-to]').forEach((el,i)=>{
-    const to=+el.dataset.to, t0=performance.now()+300+i*120, dur=1600;
-    el.textContent=fmt(0);
-    const step=t=>{const p=Math.min(1,Math.max(0,(t-t0)/dur));const e=1-Math.pow(1-p,4);el.textContent=fmt(Math.round(to*e));if(p<1)requestAnimationFrame(step)};
+    const to=+el.dataset.to, d=+(el.dataset.dec||0), t0=performance.now()+350+i*140, dur=1500;
+    el.textContent=fmtD(0,d);
+    const step=t=>{if(run!==countRun){el.textContent=fmtD(to,d);return}
+      const p=Math.min(1,Math.max(0,(t-t0)/dur));const e=1-Math.pow(1-p,4);
+      el.textContent=fmtD(d?to*e:Math.round(to*e),d);if(p<1)requestAnimationFrame(step)};
     requestAnimationFrame(step);
   });
 }
@@ -631,7 +691,7 @@ function setLang(l){
   document.querySelectorAll('[data-k]').forEach(el=>{const k=el.dataset.k;const v=l==='en'?EN[k]:PT[k];if(v!==undefined)el.innerHTML=v});
   document.getElementById('lang-pt').setAttribute('aria-pressed',l==='pt');
   document.getElementById('lang-en').setAttribute('aria-pressed',l==='en');
-  renderKpis();buildEco();store.set('gd-lang',l);
+  renderKpis();setStatic();buildEco();store.set('gd-lang',l);
 }
 document.getElementById('lang-pt').onclick=()=>setLang('pt');
 document.getElementById('lang-en').onclick=()=>setLang('en');
@@ -656,7 +716,7 @@ function buildEco(){
 
 /* ---------- navegação ---------- */
 const dots=document.getElementById('dots');
-slides.forEach((s,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',(i+1)+'');b.onclick=()=>go(i);dots.appendChild(b)});
+slides.forEach((s,i)=>{s.setAttribute('aria-label',(i+1)+' / '+slides.length);const b=document.createElement('button');b.setAttribute('aria-label',(i+1)+'');b.onclick=()=>go(i);dots.appendChild(b)});
 function go(i){
   i=Math.max(0,Math.min(N-1,i));
   slides[cur].classList.remove('active');
@@ -665,7 +725,8 @@ function go(i){
   cur=i;
   [...dots.children].forEach((b,j)=>b.setAttribute('aria-current',j===i));
   document.getElementById('count').textContent=String(i+1).padStart(2,'0')+' / '+String(N).padStart(2,'0');
-  if(s.classList.contains('s-numbers'))countUp();
+  countUp();
+  document.querySelector('.bar .mini').classList.toggle('off',i===0||i===N-1);
   net.focus=i;
 }
 const next=()=>go(cur+1),prev=()=>go(cur-1);

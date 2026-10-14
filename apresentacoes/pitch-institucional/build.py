@@ -18,7 +18,18 @@ ASSETS = ROOT / "assets"
 MIME = {".png": "image/png", ".webp": "image/webp", ".jpg": "image/jpeg", ".svg": "image/svg+xml"}
 
 
+def logo_slot(m):
+    """{{LOGO:arquivo|Nome}}: usa assets/logo-arquivo.(png|svg) se existir; senão, o nome em texto."""
+    name, label = m.group(1), m.group(2)
+    for ext in (".png", ".svg", ".webp"):
+        if (ASSETS / f"logo-{name}{ext}").exists():
+            return f'<img src="{{{{logo-{name}{ext}}}}}" alt="{label}">'
+    return f'<span class="word">{label}</span>'
+
+
 def embed(html: str) -> str:
+    html = re.sub(r"\{\{LOGO:([\w-]+)\|([^}]+)\}\}", logo_slot, html)
+
     def repl(m):
         f = ASSETS / m.group(1)
         data = base64.b64encode(f.read_bytes()).decode()
