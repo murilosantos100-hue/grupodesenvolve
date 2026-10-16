@@ -1,4 +1,4 @@
-// Apresentação comercial — Desenvolve Consultoria (municípios)
+// Apresentação comercial — Desenvolve Consultoria (Municípios)
 // PPTX 100% editável: textos, formas e gráfico nativos; imagens só para logos e textura.
 // Ritmo de fundos: azul em introdução e pontos de atenção; branco nos slides de continuidade.
 const path = require("path");
@@ -60,12 +60,10 @@ async function dMark(color, size = 512) {
       background: bg,
       objects: [
         ...extra,
-        { image: { path: logo, x: M, y: 6.92, w: 0.96, h: 0.35 } },
-        { text: { text: "Desenvolve Consultoria · Grupo Desenvolve", options: { x: 1.75, y: 6.95, w: 6, h: 0.3, fontSize: 10, color: P.src, fontFace: "Montserrat", margin: 0, valign: "middle" } } },
+        { image: { path: logo.replace(".png", "-suave.png"), x: 12.73 - 0.74, y: 6.98, w: 0.74, h: 0.27 } },
         { placeholder: { options: { name: "eyebrow", type: "body", x: M, y: 0.45, w: 12, h: 0.32, fontSize: 12, bold: true, color: P.eyebrow, charSpacing: 4, margin: 0, fontFace: "Montserrat" }, text: "" } },
         { placeholder: { options: { name: "title", type: "title", x: M, y: 0.8, w: 12.1, h: 1.1, fontSize: 30, color: P.title, fontFace: "Raleway", valign: "top", align: "left", margin: 0 }, text: "" } },
       ],
-      slideNumber: { x: 12.2, y: 6.95, w: 0.55, h: 0.3, fontSize: 10, color: P.src, fontFace: "Montserrat", align: "right" },
     });
   pres.defineSlideMaster({
     title: "CAPA",
@@ -97,7 +95,7 @@ async function dMark(color, size = 512) {
   T(s, [
     { text: "Mais recursos, mais segurança e " },
     { text: "mais resultado", options: { bold: true, color: HEX.cyan } },
-    { text: " para a saúde do seu município" },
+    { text: " para a saúde do seu Município" },
   ], { x: 0.85, y: 2.9, w: 7.8, h: 2.0, fontSize: 38, fontFace: "Raleway", color: HEX.white, valign: "top" });
   T(s, "Consultoria e assessoria em gestão da saúde pública, com método próprio e painel de dados.", { x: 0.85, y: 5.05, w: 7.2, h: 0.75, fontSize: 16, color: HEX.mist, valign: "top" });
   T(s, "Uma empresa do", { x: 0.85, y: 6.55, w: 1.6, h: 0.35, fontSize: 11, color: HEX.mist, valign: "middle" });
@@ -109,17 +107,17 @@ async function dMark(color, size = 512) {
   let P = LIGHT;
   s = pres.addSlide({ masterName: "BRANCO", sectionTitle: "O desafio" });
   eyebrow(s, "O DESAFIO DO RECURSO");
-  title(s, P, "O recurso existe, mas ", "nem sempre está onde o município precisa");
+  title(s, P, "O recurso existe, mas ", "nem sempre está onde o Município precisa");
   // destaque do saldo: cartão azul sólido (único bloco escuro do slide)
   card(s, P, M, 2.15, 5.85, 4.45, { fill: HEX.blue, line: HEX.blue, name: "Saldo em conta" });
   T(s, [{ text: "R$ 51,7", options: { bold: true } }, { text: " bi", options: { bold: true, color: HEX.cyan, fontSize: 30 } }], { x: M + 0.4, y: 2.45, w: 5.1, h: 1.0, fontSize: 60, fontFace: "Raleway", color: HEX.white, valign: "middle" });
   T(s, "em saldo nas contas dos fundos públicos de saúde", { x: M + 0.4, y: 3.45, w: 5.1, h: 0.65, fontSize: 16, bold: true, color: HEX.white, valign: "top" });
-  T(s, "O recurso federal e estadual chega vinculado a blocos e finalidades definidos fora do município, que nem sempre atendem às necessidades locais. Enquanto ele se acumula em conta, o recurso próprio é pressionado a cobrir o restante.", { x: M + 0.4, y: 4.15, w: 5.05, h: 1.8, fontSize: 14, color: "DCE6FA", valign: "top" });
+  T(s, "O recurso federal e estadual chega vinculado a blocos e finalidades definidos fora do Município, que nem sempre atendem às necessidades locais. Enquanto ele se acumula em conta, o recurso próprio é pressionado a cobrir o restante.", { x: M + 0.4, y: 4.15, w: 5.05, h: 1.8, fontSize: 14, color: "DCE6FA", valign: "top" });
   T(s, "Fonte: InvestSUS, Painel de Saldos, Ministério da Saúde (consulta em out/2026).", { x: M + 0.4, y: 6.05, w: 5.1, h: 0.35, fontSize: 10, color: "C9D7F5" });
 
   const rx = 6.85, rw = 5.88;
   card(s, P, rx, 2.15, rw, 4.45, { name: "Receita própria" });
-  T(s, "Receita própria aplicada em saúde pelos municípios, 2025", { x: rx + 0.35, y: 2.35, w: rw - 0.7, h: 0.5, fontSize: 15, bold: true, color: HEX.ink });
+  T(s, "Receita própria aplicada em saúde pelos Municípios, 2025", { x: rx + 0.35, y: 2.35, w: rw - 0.7, h: 0.5, fontSize: 15, bold: true, color: HEX.ink });
   s.addChart(pres.charts.BAR, [{ name: "% da receita", labels: ["Mínimo constitucional", "Média aplicada"], values: [15, 22.2] }], {
     x: rx + 0.2, y: 2.9, w: rw - 0.4, h: 1.9, barDir: "bar", chartColors: [HEX.barMuted, HEX.blue],
     showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: '0.0"%"', dataLabelColor: HEX.ink, dataLabelFontSize: 14, dataLabelFontBold: true, dataLabelFontFace: "+mn-lt",
@@ -127,9 +125,9 @@ async function dMark(color, size = 512) {
     valAxisHidden: true, valAxisMinVal: 0, valAxisMaxVal: 28, valGridLine: { style: "none" }, catGridLine: { style: "none" },
     showLegend: false, barGapWidthPct: 60, objectName: "Gráfico receita própria",
   });
-  T(s, [{ text: "R$ 57,4 bilhões", options: { bold: true, color: HEX.blue } }, { text: " acima do piso constitucional, aplicados pelos municípios em 2024" }], { x: rx + 0.35, y: 4.95, w: rw - 0.7, h: 0.8, fontSize: 16, color: HEX.ink, valign: "top" });
+  T(s, [{ text: "R$ 57,4 bilhões", options: { bold: true, color: HEX.blue } }, { text: " acima do piso constitucional, aplicados pelos Municípios em 2024" }], { x: rx + 0.35, y: 4.95, w: rw - 0.7, h: 0.8, fontSize: 16, color: HEX.ink, valign: "top" });
   T(s, "Fonte: CNM, a partir de dados do SIOPS (2024 e 2025).", { x: rx + 0.35, y: 6.05, w: rw - 0.7, h: 0.35, fontSize: 10, color: HEX.slate });
-  s.addNotes("Saldo: R$ 51.674.490.522,78 (InvestSUS, Painel de Saldos, consulta em out/2026). Receita própria: média de 22,2% em 2025 contra mínimo de 15%; R$ 57,4 bi acima do piso em 2024 (CNM/SIOPS). Mensagem: o município banca a saúde com recurso próprio enquanto o recurso vinculado fica parado.");
+  s.addNotes("Saldo: R$ 51.674.490.522,78 (InvestSUS, Painel de Saldos, consulta em out/2026). Receita própria: média de 22,2% em 2025 contra mínimo de 15%; R$ 57,4 bi acima do piso em 2024 (CNM/SIOPS). Mensagem: o Município banca a saúde com recurso próprio enquanto o recurso vinculado fica parado.");
 
   // ================= 3 · GESTÃO (branco) =================
   s = pres.addSlide({ masterName: "BRANCO", sectionTitle: "O desafio" });
@@ -155,17 +153,17 @@ async function dMark(color, size = 512) {
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: rx + 0.35, y: y + 0.07, w: 0.3, h: 0.3, rectRadius: 0.05, fill: { color: HEX.white }, line: { color: HEX.blue, width: 1.5 } });
     T(s, sup[i], { x: rx + 0.85, y, w: rw - 1.2, h: 0.44, fontSize: 16, color: HEX.ink, valign: "middle" });
   }
-  T(s, "Cada suporte que falta é um ponto de risco para a gestão e para o gestor.", { x: rx + 0.35, y: 5.85, w: rw - 0.7, h: 0.55, fontSize: 14, italic: true, bold: true, color: HEX.blue, valign: "top" });
+  T(s, "Cada suporte que falta é um ponto de risco para a gestão e para o Gestor.", { x: rx + 0.35, y: 5.85, w: rw - 0.7, h: 0.55, fontSize: 14, italic: true, bold: true, color: HEX.blue, valign: "top" });
   s.addNotes("Peça ao Secretário que responda mentalmente: quais desses suportes ele tem na equipe hoje? Funciona para quem não tem nenhum e para quem tem um ou dois. Não aponte falhas; deixe que ele identifique as lacunas.");
 
   // ================= 4 · CUSTO DE NÃO AGIR (azul — atenção) =================
   P = DARK;
   s = pres.addSlide({ masterName: "AZUL", sectionTitle: "O desafio" });
   eyebrow(s, "O CUSTO DE NÃO AGIR");
-  title(s, P, "Quando falta suporte, a conta chega ", "para o município e para o gestor");
+  title(s, P, "Quando falta suporte, a conta chega ", "para o Município e para o Gestor");
   const costs = [
     ["LuWallet", "Recurso parado, recurso próprio estrangulado", "O saldo vinculado se acumula em conta enquanto o tesouro municipal cobre o que falta."],
-    ["LuShieldAlert", "Apontamentos e responsabilização", "Órgãos de controle apontam falhas, e o gestor responde pessoalmente por elas."],
+    ["LuShieldAlert", "Apontamentos e responsabilização", "Órgãos de controle apontam falhas, e o Gestor responde pessoalmente por elas."],
     ["LuTrendingDown", "Perda de repasse na Atenção Primária", "No novo cofinanciamento da APS, parte do repasse federal depende do desempenho em indicadores de qualidade."],
     ["LuFileClock", "Instrumentos de gestão pendentes", "Plano de Saúde, PAS, RDQA e RAG fora do prazo comprometem a regularidade e travam transferências."],
   ];
@@ -187,7 +185,7 @@ async function dMark(color, size = 512) {
   eyebrow(s, "QUEM SOMOS");
   title(s, P, "Experiência em gestão municipal da saúde, ", "desde 2017");
   T(s, "A Desenvolve Consultoria apoia Secretarias Municipais de Saúde no planejamento, no financiamento e no cumprimento das exigências do SUS. Faz parte do Grupo Desenvolve, que reúne consultoria, formação e tecnologia em saúde pública.", { x: M, y: 2.15, w: 6.2, h: 1.5, fontSize: 16, color: HEX.slate, valign: "top" });
-  const stats = [["+100", "municípios atendidos"], ["2017", "início da atuação"], ["5", "frentes de atuação"]];
+  const stats = [["+100", "Municípios atendidos"], ["2017", "início da atuação"], ["5", "frentes de atuação"]];
   for (let i = 0; i < 3; i++) {
     const x = M + i * 2.1;
     T(s, stats[i][0], { x, y: 3.95, w: 2.0, h: 0.9, fontSize: 48, bold: true, fontFace: "Raleway", color: i === 0 ? HEX.blue : HEX.ink, valign: "bottom" });
@@ -208,16 +206,16 @@ async function dMark(color, size = 512) {
     s.addImage({ path: A(lg[i]), x: lx, y: 4.35 + (0.95 - h) / 2, w, h });
     lx += w + gap;
   }
-  s.addNotes("Atualize o número de municípios atendidos sempre que mudar.");
+  s.addNotes("Atualize o número de Municípios atendidos sempre que mudar.");
 
   // ================= 6 · MÉTODO (branco) =================
   s = pres.addSlide({ masterName: "BRANCO", sectionTitle: "A solução" });
   eyebrow(s, "NOSSO MÉTODO");
   title(s, P, "Método Desenvolve: ", "cinco frentes para uma gestão mais forte");
   const fronts = [
-    ["Recursos", "Captação e ampliação de recursos federais e estaduais, com habilitações, programas e propostas técnicas que aumentam o orçamento da saúde do município."],
-    ["Segurança financeira", "Aplicação e priorização dos recursos vinculados federais e estaduais, liberando o recurso próprio para as necessidades definidas pelo município."],
-    ["Informação rápida e confiável", "Acompanhamento diário de portarias e publicações do Ministério da Saúde e da Secretaria Estadual, com o impacto para o município, espaço para dúvidas e indicação de providências."],
+    ["Recursos", "Captação e ampliação de recursos federais e estaduais, com habilitações, programas e propostas técnicas que aumentam o orçamento da saúde do Município."],
+    ["Segurança financeira", "Aplicação e priorização dos recursos vinculados federais e estaduais, liberando o recurso próprio para as necessidades definidas pelo Município."],
+    ["Informação rápida e confiável", "Acompanhamento diário de portarias e publicações do Ministério da Saúde e da Secretaria Estadual, com o impacto para o Município, espaço para dúvidas e indicação de providências."],
     ["Cumprimento normativo", "Correto preenchimento dos sistemas da saúde e elaboração e atualização do Plano de Saúde, PAS, RDQA, RAG e demais instrumentos no DigiSUS."],
     ["Segurança jurídico-sanitária na gestão", "Apoio técnico-normativo na instrução de processos licitatórios e contratações públicas, na organização de documentos e em subsídios técnicos para respostas a Tribunais de Contas, Ministério Público e demais órgãos de controle."],
   ];
@@ -236,8 +234,8 @@ async function dMark(color, size = 512) {
   s = pres.addSlide({ masterName: "AZUL", sectionTitle: "A solução" });
   eyebrow(s, "PAINEL DE GESTÃO");
   title(s, P, "Visão 360 Saúde: ", "os números da gestão em um só lugar");
-  T(s, "Dados da saúde do município reunidos em gráficos, relatórios e indicadores-chave, para apoiar decisões estratégicas e o acompanhamento das políticas públicas.", { x: M, y: 2.15, w: 5.5, h: 1.3, fontSize: 15, color: HEX.mist, valign: "top" });
-  const feats = ["Indicadores-chave do município", "Gráficos e relatórios personalizados", "Acompanhamento de políticas públicas", "Acesso pela web e pelo aplicativo"];
+  T(s, "Dados da saúde do Município reunidos em gráficos, relatórios e indicadores-chave, para apoiar decisões estratégicas e o acompanhamento das políticas públicas.", { x: M, y: 2.15, w: 5.5, h: 1.3, fontSize: 15, color: HEX.mist, valign: "top" });
+  const feats = ["Indicadores-chave do Município", "Gráficos e relatórios personalizados", "Acompanhamento de políticas públicas", "Acesso pela web e pelo aplicativo"];
   for (let i = 0; i < feats.length; i++) {
     const y = 3.55 + i * 0.5;
     s.addImage({ data: await icon("LuCheck", HEX.cyan), x: M, y: y + 0.06, w: 0.3, h: 0.3 });
@@ -245,7 +243,7 @@ async function dMark(color, size = 512) {
   }
   const link = { url: "https://www.visao360saude.com.br/login.php", tooltip: "Abrir o Visão 360 Saúde" };
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 5.75, w: 4.6, h: 0.62, rectRadius: 0.31, fill: { color: HEX.cyan }, line: { color: HEX.cyan }, hyperlink: link, objectName: "Botão Visão 360" });
-  T(s, "Ver os números do seu município  →", { x: M, y: 5.75, w: 4.6, h: 0.62, fontSize: 15, bold: true, color: HEX.ink, align: "center", valign: "middle", hyperlink: link });
+  T(s, "Ver os números do seu Município  →", { x: M, y: 5.75, w: 4.6, h: 0.62, fontSize: 15, bold: true, color: HEX.ink, align: "center", valign: "middle", hyperlink: link });
   // tela ilustrativa (formas nativas, sem números)
   const fx = 6.55, fy = 2.15, fw = 6.18, fh = 4.25;
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: fx, y: fy, w: fw, h: fh, rectRadius: 0.12, fill: { color: "F4F7FD" }, line: { color: "F4F7FD" }, objectName: "Tela ilustrativa" });
@@ -272,14 +270,14 @@ async function dMark(color, size = 512) {
     s.addShape(pres.shapes.RECTANGLE, { x: gx + 0.3 + i * bw + bw * 0.18, y: gy + gh - 0.25 - bh, w: bw * 0.64, h: bh, fill: { color: c }, line: { color: c } });
   });
   T(s, "Imagem ilustrativa", { x: fx, y: fy + fh + 0.05, w: fw, h: 0.28, fontSize: 10, color: HEX.mist, align: "right" });
-  s.addNotes("Clique no botão para abrir o Visão 360 em nova aba e mostrar os números do município do cliente. Link: https://www.visao360saude.com.br/login.php");
+  s.addNotes("Clique no botão para abrir o Visão 360 em nova aba e mostrar os números do Município do cliente. Link: https://www.visao360saude.com.br/login.php");
 
   // ================= 8 · COMO TRABALHAMOS (branco) =================
   pres.addSection({ title: "Fechamento" });
   P = LIGHT;
   s = pres.addSlide({ masterName: "BRANCO", sectionTitle: "Fechamento" });
   eyebrow(s, "COMO TRABALHAMOS");
-  title(s, P, "Três formas de contratar, ", "conforme a necessidade do município");
+  title(s, P, "Três formas de contratar, ", "conforme a necessidade do Município");
   const opts = [
     ["LuSearch", "Diagnóstico situacional", "Raio-x da gestão municipal da saúde, com prioridades e oportunidades identificadas.", null, "Contratado de forma autônoma ou incluído na consultoria completa."],
     ["LuTarget", "Assessoria em frentes específicas", "Atuação dirigida a uma necessidade pontual, como:", ["Revisão de teto MAC", "Análise de faturamento", "Estudo de captação", "Contratualização"], null],
@@ -304,7 +302,7 @@ async function dMark(color, size = 512) {
   // ================= 9 · EQUIPE E PRÓXIMOS PASSOS (branco) =================
   s = pres.addSlide({ masterName: "BRANCO", sectionTitle: "Fechamento" });
   eyebrow(s, "EQUIPE E PRÓXIMOS PASSOS");
-  title(s, P, "Vamos conversar sobre ", "a saúde do seu município");
+  title(s, P, "Vamos conversar sobre ", "a saúde do seu Município");
   const team = [["DM", "Dr. Diego Meloni", "Diretor Técnico"], ["LN", "Luciana Nazar", "Diretora de Operação"], ["MS", "Dr. Murilo Santos", "Diretor Jurídico\nOAB/SP 311.759"]];
   for (let i = 0; i < 3; i++) {
     const x = M + i * (ow + og), y = 2.15;
